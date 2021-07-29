@@ -1,0 +1,24 @@
+%%
+%% This is file `lstlang0.sty' for Elvira-Book.tex
+%%
+
+
+%% Java "language" with new words for `listings' (Luis Daniel Hernández Molinero. ldaniel@dif.um.es)
+\lst@definelanguage{elvira}%
+  {morekeywords={abstract,boolean,break,byte,case,catch,char,class,%
+      const,continue,default,do,double,else,extends,final,finally,%
+      float,for,goto,if,implements,import,instanceof,int,interface,%
+      long,native,new,null,package,private,protected,public,return,%
+      short,static,super,switch,synchronized,this,throw,throws,%
+      transient,try,void,volatile,while,true,false},%
+   emph=[1]{% Añadir aquí cuantas clases+metodos se consideren adecuados para ser resaltados.
+     elvira, inference, clustering, elimination, approximate, abduction, parser, Network, Bnet, IDiagram, potential,PotentialTable, Evidence},%
+   sensitive,%
+   morecomment=[l]//,%
+   morecomment=[s]{/*}{*/},%
+   morestring=[b]",%
+   morestring=[b]',%
+  }[keywords,comments,strings]%
+\endinput
+%%
+%% End of file `lstlang0.sty'.

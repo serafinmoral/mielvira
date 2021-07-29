@@ -1,0 +1,46 @@
+\section{Introduction}
+
+Classification is one of the most important subfields of {\em
+machine learning} \cite{mitchell97}. As another machine learning
+task, the goal of a classification process is to build, starting
+from a set of examples (the training experience), a general rule
+(or classification model).
+
+An example describes the basic entity of the reality to be
+studied, a part of a known experience, such as a medical patient,
+a DNA microarray extracted from a tissue, a credit request or an
+e-mail received in our inbox. A variable (or feature) describes a
+specific characteristic of an example, such as the output of a
+medical test, the expression level of a specific gene, the age of
+a credit requester or the existence/nonexistence of a specific
+word in an e-mail.
+
+In {\em supervised classification} every example has a special
+feature, known as the class label, which describes the value of
+the phenomenom of interest to be studied, {\em i.e.}, the
+diagnostic of the medical patient, the `tumor' or `healthy' nature
+of the studied tissue, the possible fraud of the credit requester
+or the `spam' nature of the received e-mail. It can be considered
+that the class label of each example is provided by a supervisor
+or teacher. Starting from the dataset of labelled examples, the
+class label supervises the induction process of the classifier,
+which is used in a second step to predict, the most accurately as
+possible, the class label for further unlabelled examples. Thus, a
+bet is performed, classifying the unlabelled example with the
+label that the classifier predicts for it.
+
+In {\em data clustering} the task is characterized by the
+inexistence of this class label in the domain at hand: this makes
+to also refer to this paradigm as {\em unsupervised
+classification}. Clustering assumes that data is characterized by
+an underlying group-structure, and its objective is to provide a
+`good' description of this group-structure, when this group
+membership is unknown.
+
+{\em Elvira} includes several facilities for the building and
+manipulation processes of several well-known supervised and
+unsupervised classification techniques. These facilities can be
+easily acceded by the graphical interface or by on-line command
+instantiation of the specific {\em Elvira} classes. The following
+sections are going to be devoted to the explanation of these
+supervised and unsupervised tools in the {\em Elvira} software.

@@ -1,0 +1,345 @@
+<html>
+<meta autor="Luis Daniel Hernández Molinero. DIIC. Univ. de Murcia. 2003">
+<title>Orientaciones para el desarrollo del libro y estructura de directorios.</title>
+<body>
+<h1>
+Orientaciones para el desarrollo del libro y estructura de directorios.
+</h1>
+
+<ol>
+<li>Todas las definiciones que afectan globalmente al documento se encuentra en 
+<a href="Comun/PropiosDocumento">Comun/PropiosDocumento</a>. Consta de los siguientes ficheros:
+    <ul>
+    <li><a href="Comun/PropiosDocumento/Paquetes.tex">Paquetes.tex</a>. Indica los paquetes que se utilizarán.
+        Si necesitaras introducir alguno más asegurate que no produce conflictos con los ya introducidos. 
+        En este caso lee detenidamente la documentación porque puede que te 'obligen' a introducir un paquete
+        antes que otro.
+    <li><a href="Comun/PropiosDocumento/Ambientes.tex">Ambientes.tex</a>. Define nuevos ambientes. Inicialmente
+        sólo tiene \newtheorem. Si defines alguno nuevo introducelo aquí. NO uses nunca renewenvironement.
+    <li><a href="Comun/PropiosDocumento/Comandos.tex">Comandos.tex</a>. Define nuevos comandos. Inicialmente
+        sólo tiene algunos ejemplos de simplificación de escritura. Usa \newcommand y nunca \renewcommand.
+    <li> <a href="Comun/PropiosDocumento/Presentation.tex">Presentation.tex</a>. Define la apariencia del documento. Inicialmente está definido para hacer borradores y aprovecha al máximo el tamaño de los folios.
+    <li> <a href="Comun/PropiosDocumento/Autor.tex">Autor.tex</a>. Define la primera página del documento.
+    </ul>
+
+    <p>
+    Si necesitas añadir algún nuevo paquete, crear algún nuevo ambiente o
+    comando puedes hacerlo en el fichero pertinente teniendo en cuenta que:
+        <ul>
+	<li>No renombres comandos ni de TeX ni de LaTeX.
+        <li>No renombres los comandos o ambientes que ha creado otro autor.
+        <li>Si añades un nuevo paquete asegurate de que el documento se puede
+        compilar. Algunos paquetes renombran algunos comandos y puede producir
+        efectos no esperados. Lee la documentación del paquete antes de introducirlo:
+	puede forzarte a que lo introduzcas en una parte muy concreta del documento.
+        <p>
+            <b>Una nota sobre los paquetes.</b> Para que no haya problemas en la introducción
+            de nuevos paquetes asegurate de que se trata siempre de la última versión. Si tienes una
+            distribución obsoleta y fuerzas a que los demás la tenga se producirán inconsistencias en 
+            distribuciones más modernas ya que los paquetes 'antiguos' nunca se mantienen.
+            Los 'últimos paquetes' pueden encontrarse siempre en una mirror
+            de tex-archive (por ejemplo en ftp.rediris.es)
+        </ul>
+    <p>
+
+
+<li>Cada directorio distinto de <b>Comun</b> contiene distintos  capítulo del libro. Se ha intentado
+respetar de alguna manera la estructura de directorios java de Elvira por dos motivos: a) para que resulte más cómodo
+su localización y b) para que el 'primer nivel' no se viera demasiado recargado.<br>
+
+Más concretamente, se tiene la siguiente estructura de directorios:
+<center>
+<img src="Comun/Graficos/Directorios.gif">
+</center>
+
+Además existen dos directorios más (que no aparecen en la figura):
+	<ul>
+	<li> <b>out</b>. Es el directorio donde se almacenan los documentos finales (.dvi, .pdf, .ps y .html) si se utiliza el comando
+	<em>make</em> (ver más adelante).
+	<li> <b>warnings</b>. Es el directorio donde se almacenan todos los ficheros auxiliares que genera LaTeX si se usa el comando
+	<em>make</em> (ver más adelante).
+	</ul>
+	Tanto <b>out</b> como <b>warnings</b> no existen en el CVS por contener ficheros temporales de la compilación
+	del documento. Así, si no existen en tu directorio local <b>crealos</b>.
+</li>
+<li>Cada uno de los directorios de máxima profundidad contiene todos los ficheros de un capítulo.<p>
+    A continuación os indico la estructura del documento según se dijo en la reunión de Bubión, indicando al
+    responsable y el directorio que debería de utilizar.
+    <p>
+
+    
+    <table border="1">
+    <tr>
+    <td> Introducción. </td><td>Serafín.</td><td><a href="Introduction">Introduction</a></td></tr>
+    <tr><td>Formato elvira</td><td>Andrés</td><td><a href="Basic/Format">Basic/Format</a></td></tr>
+    <tr><td>Datos y Operaciones Básicas</td><td>Andrés</td><td><a href="Basic/Data">Basic/Data</a></td></tr>
+    <tr><td>Propagacion Exacta</td><td>Antonio</td><td><a href="Inference/Exact">Inference/Exact</a></td></tr>
+    <tr><td>Propagación Aproximada</td><td>Antonio</td><td><a href="Inference/Approx">Inference/Approx</a></td></tr>
+    <tr><td>Abducción</td><td>Jose Antonio</td><td><a href="Inference/Abduction">Inference/Abduction</a></td></tr>
+    <tr><td>Evaluación de Diagramas de Influencia</td><td>Manolo</td><td><a href="ID">ID</a></td></tr>
+    <tr><td>Prepocesamiento</td><td>Jose Luis</td><td><a href="Learning/Preprocessing">Learning/Preprocessing</a></td></tr>
+    <tr><td>Clasificacion</td><td>Iñaki</td><td><a href="Learning/Classification">Learning/Classification</a></td></tr>
+    <tr><td>Aprendizaje</td><td>Luis Miguel</td><td><a href="Learning/Learning">Learning/Learning</a></td></tr>
+    <tr><td>Explicación</td><td>Carmen</td><td><a href="Explanation">Explanation</a></td></tr>
+    <tr><td>Fusión</td><td>Pepe</td><td><a href="Tools/Fusion">Tools/Fusion</a></td></tr>
+
+    </table>
+    
+    Además se ha añadido un directorio más por si conviene añadir más herramientas implementadas en Elvira (siempre se está a tiempo de quitarlo):
+    <p>
+    <table border="1"><tr><td>Miscelaneas</td><td><a href="Tools/Misc">Tools/Misc</a></tr></table>
+   <p>
+   <br>
+<li>En cada uno de los directorios de máxima profundidad que se muestra en la figura existe un fichero 'mainDirectorio'. Más concretamente:
+
+ <table border="1">
+    <tr>
+    <td>Para el capítulo</td><td>Se tiene el fichero</td></tr>
+    <td> Introducción. </td><td><a href="Introduction/mainIntroduction.tex">Introduction/mainIntroduction.tex</a></td></tr>
+    <tr><td>Formato elvira</td><td><a href="Basic/Format/mainFormat.tex">Basic/Format/mainFormat.tex</a></td></tr>
+    <tr><td>Datos y Operaciones Básicas</td><td><a href="Basic/Data/mainData.tex">Basic/Data/mainData.tex</a></td></tr>
+    <tr><td>Propagacion Exacta</td><td><a href="Inference/Exact/mainExact.tex">Inference/Exact/mainExact.tex</a></td></tr>
+    <tr><td>Propagación Aproximada</td><td><a href="Inference/Approx/mainApprox.tex">Inference/Approx/mainApprox.tex</a></td></tr>
+    <tr><td>Abducción</td><td><a href="Inference/Abduction/mainAbduction.tex">Inference/Abduction/mainAbduccion.tex</a></td></tr>
+    <tr><td>Evaluación de Diagramas de Influencia</td><td><a href="ID/mainID.tex">ID/mainID.tex</a></td></tr>
+    <tr><td>Prepocesamiento</td><td><a href="Learning/Preprocessing/mainPreprocessing.tex">Learning/Preprocessing/mainPreprocessin.tex</a></td></tr>
+    <tr><td>Clasificacion</td><td><a href="Learning/Classification/mainClassification.tex">Learning/Classification/mainClassification.tex</a></td></tr>
+    <tr><td>Aprendizaje</td><td><a href="Learning/Learning/mainLearning.tex">Learning/Learning/mainLearning.tex</a></td></tr>
+    <tr><td>Explicación</td><td><a href="Explanation/mainExplanation.tex">Explanation/mainExplanation.tex</a></td></tr>
+    <tr><td>Fusión</td><td><a href="Tools/Fusion/mainFusion.tex">Tools/Fusion/mainFusion.tex</a></td></tr>
+    <tr><td>Miscelaneas</td><td><a href="Tools/Misc/mainMisc.tex">Tools/Misc/mainMisc.tex</a></tr>
+  </table>
+<p>
+<br>
+
+<li> Observar que cada fichero <b>mainDirectorio</b> contiene una serie de <em>\input Fichero</em>.<br>
+
+Cada fichero asociado a un <em>\input</em> corresponde a una sección. Es decir, si
+crearas una nueva sección los pasos a seguir serían los siguientes:
+	<ul>
+	<li>Crea un nuevo fichero para la nueva sección.
+	<li>Ese fichero nuevo debería de empezar por \section{...}
+	<li>Añade <em>\input NuevoFichero</em> en el fichero <b>mainDirectorio.tex</b>
+	correspondiente.
+	</ul>
+<br>
+<li> Todo fichero principal del tipo <b>mainDirectorio.tex</b> debe finalizar siempre
+con <b>\input Comun/Bib/Bib</b>.
+<p>
+<br>
+
+<li>
+    Todos los directorios contienen ya algunos ficheros de ejemplo y todos los directorios tienen el fichero <em>Introduccion.tex</em> cuyo objetivo es plantear el tipo de problema que va a resolverse en su capítulo.
+
+    Por ahora sólo algunos contienen una cita con objeto de generar una bibliografía mínima por capítulo.
+<p>
+<br>
+
+<li><b>Si añades un nuevo fichero no lo  incluyas nunca en Elvira-Book.tex</b>
+
+<p>
+<p>
+<li><b>Inclusión de Autores <font color="red">NUEVO</font></b> (19/11/2003)<p>
+Para incluir los autores de un capítulo se debe proceder como sigue:
+<ol>
+<li> Para incluir los autores en el índice escribir
+	justo después del comando \chapter{...} el comando:<br>
+	<em>\autores{Nombre1 Apellido1, Nombre2 Apellido2, Nombre3 Apellido3, etc}</em>
+<li> Para incluir los autores al principio del capítulo escribir
+	justo después del comando \chapter{...} o del comando \autores{...} tantos comandos<br>
+	<em>\autor{Nombre Apellido}{Departamento}{Universidad}</em><br>
+	como autores participen en el desarrollo del capítulo.
+</ol>
+Notas:
+<ul>
+<li>Caso de que varios autores pertenezcan al mismo centro el primer argumento de \autores{}{}{} puede ser un 'tabular' centrado.
+Por ejemplo para dos autores:<br>
+<p>
+\autor{\begin{tabular}{c}%<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Autor 1\\%<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Autor 2%<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\end{tabular}}{Dpto. My Dpto.}{Univ. Spain}
+
+<li>Los comandos \autores{} y \autor{}{}{}  están definidos en <a href="Comun/PropiosDocumento/Comandos.tex">Comandos.tex</a>.
+<li>Un ejemplo de su uso puede verse en la segunda versión CVS de <a href="Introduction/mainIntroduction.tex">Introduction/mainIntroduction.tex</a>.
+</ul>
+
+<p>
+<br>
+
+<li><b> ¿Cómo incluir listados de algoritmos?</b><p>
+    Para incluir listados de algoritmos debereis de ponerlos así:
+    <p>
+    <em>
+    \begin{lstlisting}[frame=trBL, caption=Algoritmo HUGIN, label=AlgHugin]{}<br>
+    Poner el listado<br>
+    \end{lstlisting}<br>
+    </em>
+    <p>
+    Este entorno tiene los siguientes parámetros.
+    <ul>
+    <li><em>frame=valor</em>. Pone delimitadores para el entorno de 'listados'. El valor <em>trBL</em> establece un marco.
+    <li><em>caption=string</em>. El listado tendrá un título. En el ejemplo el título es 'Algoritmo HUGIN'.
+    <li><em>label=string</em>. Funciona igual que \label{string}, por lo que puede hacerse referencia desde
+    cualquier otra parte del documentos con el comando \ref{string}. Por ejemplo, \ref{AlgHugin} pondrá el 
+    'número' asociado al listado del 'Algoritmo HUGIN'.
+    </ul>
+    <p>
+    Existe un ejemplo en la primera versión del fichero <a href="Basic/Format/Introduction.tex">Basic/Format/Introduction.tex</a>.
+    <p>
+    Existen más parámetros como enumeración de lineas, indicación de espacios, establecimiento de tabulaciones, etc.
+    Más información en el paquete <b>listings</b>.<br>
+    Tan sólo un comentario más, el entorno listings es una modificación del verbatim
+    pero que permite resaltar ciertas palabras. En consecuencia, listings no controla
+    'la longitud' de las líneas. Ese efecto no deseado puede verse si compilais
+    la primera versión de los ficheros del CVS en el capítulo 2.
+
+<p>
+<li> Palabras claves en los algoritmos.<p>
+    Ya que habrán listados que serán prácticamente Java y otros una especie de 'pseudoJava' es necesario indicar
+    al paquete listings cuáles son las palabras claves que deberán de ser resaltadas. Las palabras se encuentran en el fichero <b><a href="lstlang0.sty">lstlang0.sty</a></b> (en el mismo lugar que Elvira-Book.tex) y define el "lenguaje elvira".<p>
+    El "lenguaje elvira" es una extensión de las palabras claves de Java. <br>
+    <ul>
+    <li>Las palabras claves de Java se encuentran
+    en el apartado <b>morekeywords</b> de <b><a href="lstlang0.sty">lstlang0.sty</a></b>.
+    No tocar nunca este apartado.
+    <li>Las palabras claves de Elvira se encuentran
+    en el apartado <b>emph=[1]</b> de <b><a href="lstlang0.sty">lstlang0.sty</a></b>. Añade aquí cuantas palabras
+    claves quieres que sean resaltadas.<br>
+    Ahora mismo las palabras resaltadas se realizan mediante el comando
+    <em>\newcommand{\elvira}[1]{\textsf{#1}</em> en el fichero <em>Comun/PropiosDocumento/Comandos.tex</em>. Si se desea otro resalte sólo hay que modificar el argumento del nuevo comando <em>\elvira</em>..
+    </ul>
+<p>
+<li>Tratamiento de los Gráficos.<p>
+    <ul><li> <b>¿Donde almacenar los gráficos?</b><br>
+    Cada directorio de capítulo tiene un directorio llamado <b>fig</b>. 
+    Incluye TODOS los graficos del capítulo en su directorio <b>fig</b> y sálvalos
+    en formato Postscript (.ps o .eps)
+    <p>
+    Por ejemplo, si para el capítulo de <em>Propagación Exacta</em> se necesita el fichero gráfico 'captura',
+    deberá crearse el fichero 'captura.eps'  y sálvalos en el directorio
+    Inference/Exact/fig/
+
+    <p>
+    
+    <li> <b>¿Cómo incluyo el gráfico en el documento?</b><br>
+    
+    Para incluir el gráfico tendrás que hacerlo <b><em>relativo al lugar
+    donde se encuentre el fichero Elvira-Book.tex</b></em> y SIN extensión.
+    <p>
+    Por ejemplo, para incluir el fichero gráfico 'captura' tendrás que hacerlo
+    así:
+    \includegraphics{Inference/Exact/fig/captura}
+    
+    <p>
+    <li><b>¿Cómo capturo imágenes de pantalla?</b><br>
+    Personalemente os aconsejo los siguientes programas:
+    <ul>
+    <li> Linux: gimp o ksnapshot. Después usa gimp para quedarte con la parte que te interese.
+    <li> Windows: Existe una versión de gimp para windows. También SnagIt es muy completo. El problema es que es shareware y no exporta a postscript.
+    </ul>
+    
+    <p>
+    <li><b>¿Cómo creo gráficos comentados?</b><br>
+    Es posible que necesiteis comentar "gráficamente" paneles, opciones, etc que puedan aparecer en el entorno   gráfico de Elvira.
+    <br>
+    Personalemente os aconsejo los siguientes programas:
+    <br>
+    <ul>
+    <li>Linux: Xfig. Seleccionea el icono 'picture' y haz los comentarios pertinentes.
+    <li>Windows: Snagit Studio. Muy bueno, pero es shareware y no exporta a postscript.
+    </ul>
+    
+    <p>
+    <li>Para los más expertos se ha introducido el paquete completo de <b>pstricks</b> que puede facilitaros 
+    en algunas cosas el proceso, como por ejemplo:
+        <ul>
+        <li> pst-node, para referencias cruzadas en el texto y gráficos.
+        <li> pst-tree, para dibujar árboles,
+        <li> pst-plot, para dibujar funciones, etc
+        </ul>
+</ul>
+    <p>
+    
+<li> Bibliografía.<br>
+<ul>
+<li>
+    El fichero bibliográfico se encuentra en el directorio <a href="Comun/Bib">Comun/Bib</a> y se llama
+    <a href="Comun/Bib/Elvira-Book.bib">Elvira-Book.bib</a>.<br>
+
+    Es un fichero único para todo el libro.
+    Asegurate de que <b>'no repites'</b> la misma cita en la base bibliográfica.
+<li> En <a href="Comun/Bib">Comun/Bib</a> también se encuentra el fichero
+ <a href="Comun/Bib/Bib.tex">Bib.tex</a> y define el estilo bibliográfico al estilo 'alpha'.
+ </ul>
+<p>
+<br>
+
+<li> Compilación. 
+    <ul>
+    <li>Linux. Se realiza mediante un makefile.<br>
+    Para obtener una versión dvi, ejecuta 'make'.<br>
+    Para obtener una versión ps, ejecuta 'make ps'.<br>
+    Para obtener una versión pdf, ejecuta 'make pdf'.<br>
+    Otras opciones de make:
+	<ul>
+	<li>mover: Limpia el directorio raiz y los directorios de los capítulos de ficheros auxiliares. 
+	Usarlo siempre que se produzca un error porque en ocasiones las 'malas compilaciones' dejan referencias indeseadas. 
+	De producirse un error en la compilación los pasos a seguir son:
+		<ul>
+		<li> make mover
+		<li> make
+		</ul>
+	<li>clear, clean: limpia los directorios out y warnings.<br>
+		Las opciones mover y clear (o clean) deben usarse antes de mandar las
+		revisiones al CVS. Los pasos correctos a seguir son:
+		<ul>
+		<li> make mover
+		<li> make clear
+		<li> cvs commit xxxxxxx
+		</ul>
+	</ul>
+    </li>
+    <li>Windows. Yo os acosejo Miktex+WinEdt. El problema con WinEdt es que es shareware. Los pasos a seguir son los que se indican en el makefile. Mi consejo es que os consigais una versión de make para windows y utiliceis el fichero Makefile.
+    Si optais por hacerlo directamente los pasos a seguir son:
+    <ul>
+    	<li> latex Elvira-Book
+	<li> bibtex Directorio/mainDirectorio para cada mainDirectorio (13 compilaciones)
+	<li> latex Elvira-Book
+	<li> latex Elvira-Book
+	<li> Borrar los .aux, .log, .bbl, .blg, .toc (42 ficheros)
+    </ul>
+    Ante esto ... mejor os pasais a linux , ¿no? [o usais make para windows].
+    </li>
+    </ul>
+<p>
+<br>
+<li> Visualización.<br>
+	Los ficheros 'visualizables' (.dvi, .ps, .pdf) se salvan
+	automáticamente el directorio <b>out</b> si se utiliza el fichero Makefile. Así, para visualizar en linux
+	<ul>
+	<li> El .dvi, usa xdvi out/Elvira-Book (o kdvi)
+	<li> El .ps, usa gv out/Elvira-Book (o gvs, o kghostview)
+	<li> El .pdf, usa gv out/Elvira-Book (o acroread, o kghostview)
+	</ul>
+<p>
+<br>
+<li> Las pruebas se han hecho con debian-knoppix con las siguientes versiones
+	<ul>
+	<li> tetex 2.0.2-3 [TeX (Web2C 7.4.5) 3.14159, kpathsea version 3.4.5]
+	<li> GNU Make 3.80
+	</ul>
+
+ Se ha hecho una (sola) prueba en windows con la distribución MikTeX 2.1 y no
+ se han producido errores.
+
+</ol>
+<hr>
+Para principiantes, una buena dirección es: <a href="http://www-h.eng.cam.ac.uk/help/tpl/textprocessing/LaTeX_intro.html">http://www-h.eng.cam.ac.uk/help/tpl/textprocessing/LaTeX_intro.html</a>
+<hr>
+<p>
+Para cualquier duda mandadme un <a href="mailto:ldaniel@dif.um.es">correo-e</a>. Hasta otra y buena escritura.
+<p>
+Luis Daniel Hernández
+</body>
+</html>

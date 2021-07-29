@@ -1,0 +1,472 @@
+\section{Penniless propagation}
+
+The Penniless propagation algorithm was introduced in
+\cite{Can00}, and improved in \cite{Can03}. It is based on
+Shenoy-Shafer's, but able to provide results under limited
+resources. To achieve this, we will assume that messages are
+represented by means of probability trees. The consequence is that
+the messages that are sent during the propagation are approximated
+by pruning the trees that represent the corresponding
+probabilistic potentials.
+
+Another difference with respect to Shenoy-Shafer's algorithm is
+the number of stages of the propagation. In the exact algorithm,
+there are two stages: firstly, messages are sent from leaves to
+the root and secondly, in the opposite direction. The Penniless
+algorithm can consist of more than two stages. After the second
+phase, the goal is to increase the accuracy of the approximate
+messages at each stage, by taking into account the messages coming
+from other parts of the join tree. More precisely, when a message
+is sent throw an edge, it is approximated conditional on the
+message contained in the same edge but in the opposite direction.
+
+The criterion according to which the conditional approximation is
+approached in Penniless propagation is to minimise the impact on
+the accuracy of the marginal distributions that will be computed
+as the result of the propagation process. Taking this into
+account, assume we are going to approximate a message, $\phi_{V_i
+  \rightarrow V_j}$, between two nodes $V_i$ and $V_j$ in the join
+tree, by another potential $\phi'_{V_i \rightarrow V_j}$. After
+the propagation, the marginal probability for variables in $V_i
+\cap V_j$ will be proportional to $\phi_{V_i \rightarrow V_j}\cdot
+\phi_{V_j \rightarrow V_i}$. So $\phi'_{V_i \rightarrow V_j}$
+should be computed trying to minimise the value of conditional
+information, given by:
+
+\begin{equation}
+  \label{eq:distanciacondicional}
+  D(\phi_{V_i \rightarrow V_j},\phi'_{V_i \rightarrow V_j}|\phi_{V_j
+    \rightarrow V_i}) =
+  D(\phi_{V_i \rightarrow V_j}\cdot \phi_{V_j \rightarrow
+    V_i},\phi'_{V_i \rightarrow V_j} \cdot \phi_{V_j \rightarrow
+    V_i})\enspace .
+\end{equation}
+
+The problem is that when a message $\phi_{V_i \rightarrow V_j}$ is
+sent, usually the opposite message, $\phi_{V_j \rightarrow V_i}$,
+is not exact, but an approximation\footnote{Initially if no
+  message has been sent this message is the potential equal to 1 for
+  all the configurations} of it, $\phi'_{V_j \rightarrow V_i}$, and
+the distance in Equation (\ref{eq:distanciacondicional}) is
+conditioned to this approximation. The first time $\phi_{V_j
+  \rightarrow V_i}$ is computed,  $\phi'_{V_i \rightarrow V_j}$ was
+not available. Once we have it, we can use it to compute a better
+approximation of $\phi_{V_j \rightarrow V_i}$ by conditioning on
+it and so on. This process can continue until no further change is
+achieved in the messages.
+
+If in a given moment some message, say $\phi_{V_i \rightarrow
+  V_j}$, is exact, then there is no need to try to improve it by
+iterating as described above. Thus, even though the Penniless
+algorithm can carry out several iterations, only 2 of them (the
+first and the last) are necessary for all the messages, the rest
+will be carried out only through approximate messages. It implies
+that three different types of stages can be distinguished: the
+first stage, the intermediate ones and the last stage.
+
+The goal of the first stage is to collect information from the
+entire join tree in the root node, in order to distribute it to
+the rest of the graph in a posterior stage. Messages are sent from
+leaves to the root, and a flag is kept in every message indicating
+whether its computation was exact or approximate.
+
+In the intermediate stages, the approximate messages are updated
+according to the information coming from other parts of the tree.
+To achieve this, messages are sent in both directions: Firstly,
+from the root towards the leaves and secondly, from the leaves
+upwards. When a message is going to be sent through an edge, the
+flag of the message in the opposite direction is checked; if that
+message is labeled as exact, the messages in the subtree
+determined by that edge are no further updated. The reason to do
+this is that sending messages through that edge will not help to
+better approximate the messages in the opposite directions, since
+those messages are already exact.
+
+In the last stage the propagation is completed sending messages
+from the root to the leaves. In this case, messages are sent
+downwards even if the message stored in the opposite direction is
+exact. This is done to assure that at the end of the propagation
+all the cliques in the join tree have received the corresponding
+messages.
+
+The pseudo code for the algorithm is as follows.
+
+
+\bigskip\noindent
+\textsf{\textbf{ALGORITHM PennilessPropagation($\cal
+    J$,$stages$)}}
+
+\bigskip\noindent
+INPUT: A join tree $\cal J$ and the number of propagation stages.
+
+\noindent
+OUTPUT: Join tree $\cal J$ after propagation.
+
+\begin{enumerate}
+\item Select a root node $R$.
+\item \textsf{\textbf{NavigateUp($R$)}}
+\item $stages := stages - 1$
+\item WHILE $stages > 2$
+  
+  \begin{enumerate}
+  \item[] \textsf{\textbf{NavigateDownUp($R$)}}
+  \item[] $stages := stages - 2$
+  \end{enumerate}
+  
+\item IF ($stages$ == 1)
+  
+  \begin{itemize}
+  \item[] \textsf{\textbf{NavigateDown($R$)}}
+  \end{itemize}
+  
+  ELSE
+  
+  \begin{itemize}
+  \item[] \textsf{\textbf{NavigateDownUpForcingDown($R$)}}
+  \end{itemize}
+  
+\end{enumerate}
+
+The first stage is carried out by calling procedure {\bf NevigateUp}.
+This procedure requests a message from each one of its
+neighbours, which recursively do the same to all its neighbours downwards
+until the leaves are reached. Then, messages are sent upwards
+until the root is reached. This task is implemented by the following two
+procedures.
+
+\bigskip\noindent
+\textsf{\textbf{NavigateUp($R$)}}
+
+\begin{enumerate}
+\item FOR each $V\in ne(R)$,
+  \begin{itemize}
+  \item[] \textsf{\textbf{NavigateUp($R$,$V$)}}
+  \end{itemize}
+\end{enumerate}
+
+
+\bigskip\noindent
+\textsf{\textbf{NavigateUp($S$,$T$)}}
+
+\begin{enumerate}
+\item FOR each $V\in ne(T)-\set{S}$,
+  \begin{itemize}
+  \item \textsf{\textbf{NavigateUp($T$,$V$)}}
+  \end{itemize}
+\item \textsf{\textbf{SendApprMessage($T$,$S$)}}
+\end{enumerate}
+
+
+Once the root node has received  messages from all its neighbours, the
+intermediate stages begin. This is carried out by the next two
+procedures. Observe that exact messages are not updated.
+
+\bigskip\noindent
+\textsf{\textbf{NavigateDownUp($R$)}}
+
+\begin{enumerate}
+\item FOR each $V\in ne(R)$
+  
+  \begin{itemize}
+  \item[] IF $\phi_{V\rightarrow R}$ is not exact
+    \begin{itemize}
+    \item[] IF $\phi_{R\rightarrow V}$ is not exact
+      \begin{itemize}
+      \item[] \textsf{\textbf{SendApprMessage($R$,$V$)}}
+      \end{itemize}
+    \item[] \textsf{\textbf{NavigateDownUp($R$,$V$)}}
+    \end{itemize}
+  \end{itemize}
+\end{enumerate}
+
+
+\bigskip\noindent
+\textsf{\textbf{NavigateDownUp($S$,$T$)}}
+
+\begin{enumerate}
+\item FOR each $V\in ne(T)-\set{S}$
+  \begin{itemize}
+  \item[] IF $\phi_{V\rightarrow T}$ is not exact
+    \begin{itemize}
+    \item[] IF $\phi_{T\rightarrow V}$ is not exact
+      \begin{itemize}
+      \item[] \textsf{\textbf{SendApprMessage($T$,$V$)}}
+      \end{itemize}
+    \item[] \textsf{\textbf{NavigateDownUp($T$,$V$)}}
+    \end{itemize}
+  \end{itemize}
+  
+\item IF $\phi_{T\rightarrow S}$ is not exact
+  \begin{itemize}
+  \item[] \textsf{\textbf{SendApprMessage($T$,$S$)}}
+  \end{itemize}
+\end{enumerate}
+
+
+Finally, the last step is carried out by calling the procedures described
+next. After this, the posterior marginal for any variable in the network
+can be computed by selecting any node containing that variable and
+marginalising its corresponding potential. Observe that after the
+intermediate stages, if the total number of stages is odd, we still have
+to perform two traversals, one downwards and one upwards. The difference
+with respect to the intermediate steps is that in this case, messages are
+sent downwards even if they are marked as exact, in order to assure that
+the posterior marginals can be obtained in any node.
+
+\bigskip\noindent
+\textsf{\textbf{NavigateDownUpForcingDown($R$)}}
+
+\begin{enumerate}
+\item FOR each $V\in ne(R)$
+  
+  \begin{itemize}
+  \item[] IF $\phi_{V\rightarrow R}$ is not exact
+    \begin{itemize}
+    \item[] IF $\phi_{R\rightarrow V}$ is not exact
+      \begin{itemize}
+      \item[] \textsf{\textbf{SendApprMessage($R$,$V$)}}
+      \end{itemize}
+    \item[] \textsf{\textbf{NavigateDownUpForcingDown($R$,$V$)}}
+    \end{itemize}
+    ELSE
+    \begin{itemize}
+    \item[] IF $\phi_{R\rightarrow V}$ is not exact
+      \begin{itemize}
+      \item[] \textsf{\textbf{SendApprMessage($R$,$V$)}}
+      \end{itemize}
+    \item[] \textsf{\textbf{NavigateDown($R$,$V$)}}
+    \end{itemize}
+  \end{itemize}
+\end{enumerate}
+
+
+\bigskip\noindent
+\textsf{\textbf{NavigateDownUpForcingDown($S$,$T$)}}
+
+\begin{enumerate}
+\item FOR each $V\in ne(T)-\set{S}$
+  
+  \begin{itemize}
+  \item[] IF $\phi_{V\rightarrow T}$ is not exact
+    \begin{itemize}
+    \item[] IF $\phi_{T\rightarrow V}$ is not exact
+      \begin{itemize}
+      \item[] \textsf{\textbf{SendApprMessage($T$,$V$)}}
+      \end{itemize}
+    \item[] \textsf{\textbf{NavigateDownUpForcingDown($T$,$V$)}}
+    \end{itemize}
+    ELSE
+    \begin{itemize}
+    \item[] IF $\phi_{T\rightarrow V}$ is not exact
+      \begin{itemize}
+      \item[] \textsf{\textbf{SendApprMessage($T$,$V$)}}
+      \end{itemize}
+    \item[] \textsf{\textbf{NavigateDown($T$,$V$)}}
+    \end{itemize}
+  \end{itemize}
+  
+\item \textsf{\textbf{SendApprMessage($T$,$S$)}}
+\end{enumerate}
+
+However, if the total number of stages is even, in the final stage we
+just have to send messages downwards, which is implemented by the next
+procedures.
+
+\bigskip\noindent
+\textsf{\textbf{NavigateDown($R$)}}
+
+\begin{enumerate}
+\item FOR each $V\in ne(R)$
+  \begin{itemize}
+  \item[] \textsf{\textbf{SendApprMessage($R$,$V$)}}
+  \item[] \textsf{\textbf{NavigateDown($R$,$V$)}}
+  \end{itemize}
+\end{enumerate}
+
+
+\bigskip\noindent
+\textsf{\textbf{NavigateDown($S$,$T$)}}
+
+\begin{enumerate}
+\item FOR each $V\in ne(T)-\set{S}$
+  \begin{itemize}
+  \item[] \textsf{\textbf{SendApprMessage($T$,$V$)}}
+  \item[] \textsf{\textbf{NavigateDown($T$,$V$)}}
+  \end{itemize}
+\end{enumerate}
+
+
+Now we show the details of procedure {\bf SendApprMessage}, used in the
+algorithms above. A message $\phi_{S\rightarrow T}$ is computed by
+combining all the incoming messages of $S$ except that one coming
+from $T$ with the potential in $S$, and then, the resulting potential is
+approximated according to the message coming from $T$ to
+$S$, $\phi_{T\rightarrow S}$.
+
+\bigskip\noindent
+\textsf{\textbf{SendApprMessage($S$,$T$)}}
+
+\begin{enumerate}
+\item Compute
+  $$
+  \phi = \left(
+    \prod_{V\in ne(S)-\set{T}}\phi_{V\rightarrow S}
+  \right)\flechab{S} \enspace .
+  $$
+\item IF at least one of the messages $\phi_{V\rightarrow S}$ is not
+  exact, mark $\phi$ as approximate.
+\item Compute $\phi_{S\rightarrow T} = \phi \cdot \phi_S$.
+\item IF the size of $\phi_{S\rightarrow T}$ is too big
+  \begin{enumerate}
+  \item Approximate $\phi_{S\rightarrow T}$ conditional on
+    $\phi_{T\rightarrow S}$.
+  \item Mark $\phi_{S\rightarrow T}$ as approximate.
+  \end{enumerate}
+\end{enumerate}
+
+
+\subsection{Description of the classes related to Penniless
+  propagation in Elvira}
+
+The main class that contains the implementation of Penniless
+propagation is the class \texttt{Penniless} which is a subclass of
+\texttt{propagation}. Here is a description of its main methods:
+
+\begin{itemize}
+\item \texttt{Penniless(Bnet b, Evidence e, double[] lp, double[] llp,
+    double[] lsp, int[] ls, boolean[] sortAndBound,int m, int triangMethod)}.
+  This constructor sets up a propagation object, over which
+  the propagation can be carried out.
+  \texttt{b} is the network, \texttt{e} the evidence to propagate,
+  \texttt{lp} is an array with the limits for pruning in each
+  propagation stage (see the section on probability trees),
+  \texttt{llp} is an array with
+  lower limits for pruning, that mean that, below those
+  limits, a pruned tree is considered as exact. \texttt{lsp} is an
+  array with limit values per stage under which, leave which
+  sum less that the given thresholds are pruned. \texttt{ls} is an
+  array indicating the maximum number of leaves per tree in
+  each stage, in case that sort and bound is activated.
+  \texttt{sortAndBound} is an array indicating whether or not to
+  activate sorting and bounding the trees in each stage. \texttt{m} is
+  the information measure to use (1 for average and 2 for
+  conditional average). \texttt{triangMethod} is the triangulation
+  method (0 is for considering evidence during the
+  triangulation, 1 is for considering evidence and directly remove relations
+  that are conditional distributions when the conditioned variable is removed.
+  2 is for not considering evidence.
+\item \texttt{public Penniless(Bnet b, Evidence e, double[] lp,
+    double[] llp,double[] lsp, int[] ls, boolean[] sortAndBound,
+    int m, JoinTree jt)}.
+  This constructor is the same as the previous one, but
+  now, instead of giving a triangulation method, the join
+  tree is provided as argument \texttt{jt}. Some of the
+  arguments in these constructors can be set directly for
+  already created objects using the next methods:
+\item \texttt{public void setLimitForPruning(double[] lp)}.
+\item \texttt{public void setLowLimitForPruning(double[] llp)}.
+\item \texttt{public void setLimitSumForPruning(double[] lsp)}.
+\item \texttt{public void setMaximumSizes(int[] ls)}.
+\item \texttt{public void setSortAndBound(boolean[] sAB)}.
+\item \texttt{public void setInfoMeasure(int m)}.
+\item \texttt{public int getInfoMeasure()}.
+\item \texttt{public JoinTree getJoinTree()}. Returns the join
+  tree over which the propagation is defined.
+\item \texttt{public void setJoinTree(JoinTree jt)}. This
+  methods sets the join tree in an object that must be previously
+  created.
+\item \texttt{public void setKindOfApprPruning(String kind)}.
+  Sets the method for pruning the trees, for a propagation object
+  previously created. \texttt{kind} can be "AVERAGE" (replace by the
+  average), "ZERO" (replace by 0) or "AVERAGEPRODCOND"
+  (replace by the conditional average in \cite{Can03}.
+\item \texttt{public double obtainEvidenceProbability()}.
+  Returns the probability of the evidence contained in the
+  propagation object.
+\item \texttt{public double obtainEvidenceProbabilityFromRoot()}.
+  Gets the probability of the evidence directly from the root,
+  as long as a propagation has been carried out previously.
+\item \texttt{public void initMessages()}. Initialises all the messages
+  to 1, except those corresponding to leaf nodes, which will contain
+  the potential in the leaf node. Messages between cliques are marked
+  as not exact.
+\item \texttt{public void propagate(String resultFile) throws ParseException,
+    IOException}. Carries out a propagation over an object
+  previously created, and saves the results (the marginal
+  distributions) in a text file named \texttt{resultFile}.
+\item \texttt{public void sendMessage(NodeJoinTree sender,
+    NodeJoinTree recipient, boolean takeNumberNextStage)}. Sends a
+  message from a node to another one.
+  Marks the messages as not exact when this method carries out
+  an approximation or one of the input messages are not exact.
+  The message is computed by combining all the messages inwards
+  the sender except that one coming from the recipient. Then, the
+  result is sorted and bounded conditional to the message
+  going from the recipient to the sender.
+  It is required that the nodes in the tree be labeled.
+  Use method \texttt{setLabels} from \texttt{JoinTree} if
+  necessary. The arguments are: \texttt{sender}, the node that sends
+  the message. \texttt{recipient}, the node that receives the message.
+  \texttt{takeNumberNextStage}. true if we must do
+  sort and bound over the message, with
+  \texttt{maximumSize[currentStage+1]} and false if we
+  must do sort and bound over the message, with
+  \texttt{maximumSize[currentStage]}.
+\item \texttt{private void navigateDownUp(NodeJoinTree sender)}.
+  Send messages from the root (\texttt{sender}) to the leaves, and
+  then from the leaves towards the root. The method does not navigate
+  throw a branch if the message in the opposite direction
+  (\texttt{getOtherValues()}) is exact.
+\item \texttt{private void navigateDownUp(NodeJoinTree sender,
+    NodeJoinTree recipient)}. Sends messages from the root
+  (\texttt{sender}) to the leaves, and then from the leaves
+  to the root, through the branch towards node \texttt{recipient}.
+  This method do not navigate throw a branch if the message in the opposite
+  direction is exact.
+\item \texttt{private void navigateDownUpForcingDown(NodeJoinTree
+    sender)}. This method is used to send messages from the root
+  (\texttt{sender}) to the leaves, and then from the leaves
+  to root. When it navigates  down,  if the message in the opposite direction
+  in a branch is exact, then it will continue with \texttt{navigateDown}
+  over that branch (and not doing the ascending step).
+\item \texttt{private void navigateDownUpForcingDown(NodeJoinTree sender,
+    NodeJoinTree recipient)}. This method sends messages from the root
+  (\texttt{sender}) to the leaves, and then from the leaves
+  to the root, through the branch \texttt{recipient}.
+  When it navigates  down,  if the message in the opposite direction
+  in a branch is exact, then it will
+  continue with \texttt{navigateDown} over that branch
+  (and not doing the ascending step).
+\item \texttt{private void navigateUp(NodeJoinTree sender)}. Sends
+  messages from the leaves to the root (\texttt{sender}).
+\item \texttt{private void navigateUp(NodeJoinTree sender, NodeJoinTree
+    recipient)}. Sends an upward message from \texttt{recipient} to
+  \texttt{sender}.
+\item \texttt{public void navigateDown(NodeJoinTree sender)}. Sends
+  messages from the root (\texttt{sender}) to the leaves.
+\item \texttt{public void navigateDown(NodeJoinTree sender, NodeJoinTree
+    recipient)}. Sends a downwards message through the branch
+  \texttt{recipient}.
+\item \texttt{public RelationList getInitialRelations()}. Returns
+  the initial relations in the network (the conditional distributions).
+\item \texttt{public void computeMarginals()}. Computes the marginals
+  after a propagation and put them into the instance variable
+  \texttt{results}. Sets an entry in the hash table \texttt{positions}
+  for each variable, to indicate the index to locate the variable
+  in vector \texttt{results}.
+  
+  \subsection{Running Penniless propagation}
+  
+  In order to run Penniless propagation from the command line, go
+  to the Elvira root directory and type
+  \verb"'java elvira.inference.clustering.Penniless NetworkFile"
+  \verb"OutputFile StatisticsFile ExactResultsFile"
+  \verb"kindOfApprPruning(AVERAGE|ZERO|AVERAGEPRODCOND) infoMeasure(1|2) NumberOfStages LimitForPruningStage1"
+  \verb"LimitForPruningStage2 ... LowLimitForPruningStage1 LowLimitForPruningStage2 ... LimitSumForPruning1"
+  \verb"LimitSumForPruning2 ... MaxSizeInStage1 MaxSizeInStage2 ... SortAndBoundInStage1(true|false)"
+  \verb"SortAndBoundInStage2 ... TriangulationMethod(0|1|2) [EvidenceFile]'". Argument \verb"ExactResultsFile" can be
+  replaced by the word \verb"NORESULTS", indicating that no
+  exact results are available, in which case the error is not
+  computed.
+  
+\end{itemize}

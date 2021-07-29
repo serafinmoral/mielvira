@@ -1,0 +1,16 @@
+;; Object probabilisticDecisionGraph/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "probabilisticDecisionGraph/"
+  :tables (list 
+   (semanticdb-table "pdg_parser.jj"
+    :major-mode 'java-mode
+    :tags '(("elvira.probabilisticDecisionGraph" package nil nil [193 235]) ("elvira.probabilisticDecisionGraph.tools.*" include nil nil [237 286]) ("elvira.*" include nil nil [287 303]) ("java.io.*" include nil nil [304 321]) ("java.util.*" include nil nil [322 341]) ("PDGParse" type (:typemodifiers ("public") :members (("Name" variable (:type "String") (reparse-symbol class_member_declaration) [378 390]) ("Title" variable (:type "String") (reparse-symbol class_member_declaration) [395 408]) ("Comment" variable (:type "String") (reparse-symbol class_member_declaration) [413 428]) ("outputNodes" variable (:typemodifiers ("public") :type "NodeList") (reparse-symbol class_member_declaration) [455 467]) ("Nodes" variable (:typemodifiers ("public") :type "NodeList") (reparse-symbol class_member_declaration) [433 454]) ("main" function (:throws ("ParseException" "IOException" "PDGException") :typemodifiers ("public" "static") :arguments (("args[]" variable (:type "String") (reparse-symbol formal_parameters) [502 515])) :type "void") (reparse-symbol class_member_declaration) [478 859]) ("extractChildren" function (:constructor-flag t :throws ("ParseException")) (reparse-symbol class_member_declaration) [906 1788]) ("parsePNChildren" function (:throws ("ParseException") :arguments (("pn" variable (:type "PDGParameterNode") (reparse-symbol formal_parameters) [1833 1852]) ("successor" variable (:type "PDGVariableNode") (reparse-symbol formal_parameters) [1894 1919])) :type "PDGParameterNode[]") (reparse-symbol class_member_declaration) [1798 2955])) :type "class") nil [349 2957]))
+    :file "pdg_parser.jj"
+    :pointmax 11570
+    :unmatched-syntax 'nil
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre3"
+  :semanticdb-version "2.0pre3"
+  )

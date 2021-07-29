@@ -1,0 +1,84 @@
+\section{Introduction}
+
+Aquí empezamos con el listado y ahora intentamos hacer referencia
+\ref{Listado}
+
+
+
+
+
+\begin{lstlisting}[frame=trBL, caption=Relacion Canónica, label=Listado]{}
+/* Bnet.java */
+
+package elvira;
+
+
+import java.util.*;
+import java.awt.*;
+import java.io.*;
+import java.net.URL;
+import elvira.inference.*;
+import elvira.inference.clustering.*;
+import elvira.inference.elimination.*;
+import elvira.inference.approximate.*;
+import elvira.inference.abduction.*;
+import elvira.parser.*;
+import elvira.potential.*;
+import elvira.gui.KmpesDialog;
+
+/**
+ * This class implements the structure for storing and
+ * manipulating the Bayesian Networks.
+ *
+ * @version 0.1
+ * @since 20/11/2000
+ */
+
+
+public class Bnet extends Network {
+
+
+/**
+ * Frequently used values.
+ */
+public static final String ABSENT = "Absent";
+public static final String PRESENT = "Present";
+
+/**
+ * <code>true</code> if the network has been compiled or <code>false</code>
+ * otherwise.
+ */
+private boolean isCompiled = false;
+
+
+/**
+ * Program to check the performance from the command line.
+ */
+
+public static void main(String args[]) throws elvira.parser.ParseException, IOException {
+
+  Bnet b;
+  int nparents, nnodes, ncases;
+  Random generator;
+  FileWriter f;
+
+  if (args.length < 4) {
+    System.out.print("Too few arguments. Arguments are: file,number of nodes,number of cases,number of parents");
+  }
+  else {
+    f = new FileWriter(args[0]);
+    nnodes = (Integer.valueOf(args[1])).intValue();
+    ncases = (Integer.valueOf(args[2])).intValue();
+    nparents = (Integer.valueOf(args[3])).intValue();
+    generator = new Random();
+    b = new Bnet(generator,nnodes,nparents,ncases,true,1,0.009);
+    b.setName(args[0].substring(0,args[0].length()-4));
+    b.saveBnet(f);
+    f.close();
+  }
+}
+
+\end{lstlisting}
+
+
+\cite{Can00,jensen-book2001}

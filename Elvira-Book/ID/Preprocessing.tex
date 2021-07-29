@@ -1,0 +1,251 @@
+%TCIDATA{Version=5.00.0.2606}
+%TCIDATA{LaTeXparent=0,0,..\Elvira-Book.tex}
+                      
+%TCIDATA{ChildDefaults=chapter:1,page:1}
+
+
+\section{Preprocessing}
+
+Before evaluating an influence diagram it can be processed in order to make
+easy the evaluation. Some of these operations of preprocess are redundancy
+elimination, qualitative evaluations and instantiation.
+
+\subsection{Redundancy elimination}
+
+A mechanism to simplify the ID consists in eliminating arcs which are
+redundant. These arcs point out to decision nodes, but do not have influence
+on their policy. They are eliminated mainly because of two reasons. Firstly,
+the evaluation of the ID requires less computational time and storage size
+without them because the tables of the utility potentials that appear during
+the evaluation are smaller. Secondly, the information sets for the decisions
+are smaller, so that the decision maker can understand more easily the
+optimal policies obtained from the evaluation. \cite{faguiouli98} proposed
+an algorithm that identifies graphically these redundant arcs and remove
+them. The proposed method is appliable for IDs with an only utility node.
+
+Previously to the redundancy elimination, it is necessary to determine the
+order in which the decisions are performed. This order is determined by
+looking for a path that connects all decisions in the ID. After that, the
+redundancy elimination begins adding the non-forgetting arcs. It involves
+graphically that the parents of any decision in the ID are also parents of
+any posterior decision.
+
+Then, the procedure executes a loop by considering a decision node in each
+iteration. It considers that the decision nodes $D_{1},...,D_{n}$ are in
+temporal order. It begins with the last decision $D_{n}$ and applies a
+d-separation criterion (\cite{pearl88}) to detect its redundant arcs. So,
+the algorithm considers each node $p$ belonging to $parents(D_{n})$ and it
+removes the arc from $p$ to $D_{n}$ if $p$ is d-separated of the utility
+node $U$ given the rest of nodes of $parents(D_{n})$. When the redundant
+arcs of $D_{n}$ have been removed the next step is to apply the same
+procedure for the decision $D_{n-1}$, and so on until $D_{1}$.
+
+The pseudo code for the algorithm of elimination of redundant arcs is as
+follows.
+
+\bigskip \noindent \textsf{\textbf{ALGORITHM EliminateRedundancyOneValueNode(%
+$ID$)}}
+
+\bigskip \noindent INPUT: An ID with utility node $U$ and decisions $D_{1}$%
+,...,$D_{n}$.
+
+\noindent OUTPUT: The ID without redundant arcs.
+
+\begin{enumerate}
+\item Add non-forgetting arcs.
+
+\item FOR $i$:=$n$ TO 1 STEP -1
+
+\begin{enumerate}
+\item FOR each $p\in _{parents}(D_{i})$
+
+\begin{itemize}
+\item IF ($p$ is d-separated from $U$ given $parents(D_{i})-\set{p}$)
+
+\begin{itemize}
+\item remove arc ($p$,$D_{i}$)
+\end{itemize}
+\end{itemize}
+\end{enumerate}
+\end{enumerate}
+
+One limitation of the previous algorithm is that it requires that the ID has
+got an only utility node. In order to overcome this limitation, \cite%
+{nilsson00} proposed a new algorithm to eliminate redundant arcs in IDs with
+several utility nodes, when there is an implicit sum (or product) among
+them. This algorithm modifies the graphic criterion to eliminate an arc ($p$%
+, $D_{i}$) by requiring that $p$ was d-separated of every value node $U_{j}$
+given the rest of the nodes of $parents(D_{i})$. The algorithm is as follows.
+
+\bigskip \noindent \textsf{\textbf{ALGORITHM
+EliminateRedundancySeveralValueNodes($ID$)}}
+
+\bigskip \noindent INPUT: An ID with set of utility nodes $V_{U}$ and
+decisions $D_{1}$,...,$D_{n}$.
+
+\noindent OUTPUT: The ID without redundant arcs.
+
+\begin{enumerate}
+\item Add non-forgetting arcs.
+
+\item FOR $i$:=$n$ TO 1 STEP -1
+
+\begin{itemize}
+\item FOR each $p\in parents(D_i)$
+
+\begin{itemize}
+\item redundant:=true
+
+\item FOR each $U_{j}\in V_{U}$
+
+\begin{itemize}
+\item IF ($p$ is not d-separated from $U_{j}$ given $parents(D_{i})-\set{p}$)
+
+redundant:=false
+
+break
+\end{itemize}
+
+\item IF (redundant == true)
+
+\begin{itemize}
+\item remove arc ($p$,$D_{i}$)
+\end{itemize}
+\end{itemize}
+\end{itemize}
+\end{enumerate}
+
+\subsubsection{Methods to eliminate redundancy in Elvira}
+
+The redundancy elimination in Elvira is performed in the class IDiagram. The
+method implemented is:
+
+\begin{itemize}
+\item \texttt{public void eliminateRedundancy()}. This method eliminates the
+redundant arcs according to the procedure \textbf{%
+EliminateRedundancySeveralValueNodes}. It can be applied to IDs with several
+value nodes. Note that the behavior of the procedure \textbf{%
+EliminateRedundancySeveralValueNodes} with IDs with one value node is
+identical to the procedure \textbf{EliminateRedundancyOneValueNode}.
+\end{itemize}
+
+Although Elvira let us have IDs with super-value nodes, it is not possible
+to eliminate redundancy in them because there does not exist any algorithm
+to do it. A trick to eliminate some redundant arcs in an ID with super-value
+nodes in Elvira, which does not ensure to eliminate every redundant arc,
+consists in to transform the ID to other with one utility node by using the
+class \textbf{ReductionAndEvalID}. The method eliminateRedundancy could be
+applied to this ID and subsequently we could delete the redundant arcs in
+our original ID.
+
+\subsection{Qualitative evaluation}
+
+The evaluation of an ID involves to perform computations over the
+probability and utility potentials. The storage size of these potentials can
+grow during the evaluation, which means an additional computational time for
+the operations performed over them. A decisive matter in the algorithms of
+evaluation of IDs is the order in which the operations are performed. The
+elimination of a chance or decision node or a reversal arc are some examples
+of these operations.
+
+Qualitative evaluators have been developed to cope with this important
+matter. These evaluators implement the evaluation algorithms, but they do
+not perform the mathematical operations over the probability and utility
+potentials. They only modify the structure of the ID. This lets to track the
+process of evaluation by considering the cost of the different operations
+applicable in each step of the algorithm. The selection of the next
+operation is made according to the Kong's heuristic \cite{kong86}, which
+recommends to select in any moment of the evaluation the operation which
+brings about a smaller size of the problem.
+
+Kong's heuristic is a greedy strategy that can direct us to a solution with
+minimal computational cost for some IDs. However, to find an optimal
+sequence of operations is a NP-complete problem. For a detail addressing of
+the problem it can be consulted \cite{gomez01}.
+
+\subsubsection{Classes to perform qualitative evaluations in Elvira}
+
+There are several classes to perform qualitative evaluations in Elvira. Each
+one is subclass of other class that performs the complete evaluation of the
+ID. Furthermore, there is no classes to evaluate qualitatively IDs with
+super-value nodes. The classes of qualitative evaluation are as follow:
+
+\begin{itemize}
+\item \texttt{public class QualitativeVariableElimination}. This class
+evaluates qualitatively the ID according to the variable-elimination
+algorithm. It is a subclass of \texttt{VariableElimination}.
+
+\item \texttt{public class QualitativeArcReversal} This class evaluates
+qualitatively the ID according to the arc-reversal algorithm. It is a
+subclass of \texttt{ArcReversal}.
+\end{itemize}
+
+\subsection{Instantiation}
+
+Other technique that reduces the computational complexity is the
+instantiation (or evidence propagation). It consists in incorporating to the
+ID the observations about the value of chance variables, which means that
+the knowledge of the decision maker changes in the moment of solving their
+decision problem. The ID reflexes the new situation as consequence of the
+instantiation by modifying the probability and utility potentials and the
+structure of the ID. Evidence propagation is detailed in \cite{ezawa98}.
+
+Although \cite{ezawa98} describes how the instantiation can be used to
+compute certain measures of sensitivity analysis as the value of evidence or
+the value of perfect information, we use it to solve the problem when the
+uncertainty has dropped. The simplification of the problem that the
+instantiation produces makes the computational cost be lower.
+
+The are different scenarios in which Elvira propagates evidence in IDs.
+
+\begin{itemize}
+\item \texttt{Evidence propagation between chance nodes}. This incorporation
+of evidence distinguishes between forward propagation and backward
+propagation. Forward propagation means to restrict the probability
+potentials of the successors of instantiated variables to the value of the
+evidence. Backward propagation means to reverse the necessary arcs to
+perform subsequently a forward propagation.
+
+\item \texttt{Evidence propagation from a chance node to a decision node}
+When a chance node has propagated its evidence to all its neighbors that are
+chance nodes, it has turned into a barren node. Then, it is enough\ to
+remove its arc to the decision node.
+
+\item \texttt{Evidence propagation over a chance node that is successor of a
+decision node}. \cite{ezawa98} proposes two forms of incorporating evidence
+in this case: unconditional evidence and conditional evidence. The
+difference is that unconditional evidence does not depend on the previous
+decision, while the conditional evidence does depend. Elvira implements the
+unconditional evidence, which means the value of the evidence is known
+before the decision maker takes any decision.
+\end{itemize}
+
+\subsubsection{How to incorporate evidence in Elvira}
+
+Elvira has implemented the evidence propagation for the variable-elimination
+algorithm and its different variants. The evidence must be an object of the
+class \texttt{Evidence}, and it must be passed as a parameter to the class
+that evaluates the ID. For example, the class \texttt{VariableElimination}
+has got the constructor:
+
+\begin{itemize}
+\item \texttt{public VariableElimination(Bnet b, Evidence e)}. This
+constructor sets up a propagation object, over which the propagation will be
+carried out. \texttt{b} is the influence diagram and \texttt{e} is the
+evidence to propagate.
+\end{itemize}
+
+Unfortunately, the Elvira GUI does not allow to incorporate evidence over an
+ID. This must be performed through a file *.evi when Elvira is used in
+command line. For example, if we want to introduce as evidence to the
+evaluation of an ID that the variables $A$ and $B$ have been observed to the
+values \emph{yes} and \emph{no} respectively, our file \verb|Example.evi|
+would be as follows:
+
+\begin{lstlisting}[frame=trBL, caption=Example.evi, label=ExampleEvi]{}
+evidence Example { A = "no", B = "yes", }
+\end{lstlisting}
+
+The parser of Elvira would construct an evidence object from this file, that
+could be used as a parameter for the classes of evaluation of IDs that allow
+to incorporate evidence.

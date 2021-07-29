@@ -1,0 +1,41 @@
+\documentclass[11pt,twoside]{book}
+
+\input ./Comun/PropiosDocumento/Paquetes.tex
+\input ./Comun/PropiosDocumento/Ambientes.tex
+\input ./Comun/PropiosDocumento/Comandos.tex
+\input ./Comun/PropiosDocumento/Presentacion.tex
+\input ./Comun/PropiosDocumento/Autor.tex
+
+\begin{document}
+\lstset{language=elvira,emphstyle=[1]{\elvira}} % NO TOCAR ESTA LINEA. TIENE QUE VENIR AQUÍ
+
+
+\maketitle \tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{Introduction/mainIntroduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{Basic/Format/mainFormat}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{Basic/Data/mainData}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{Inference/Exact/mainExact}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{Inference/Approx/mainApprox}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{Inference/Abduction/mainAbduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{ID/mainID}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{Learning/Preprocessing/mainPreprocessing}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{Learning/Classification/mainClassification}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{Learning/Learning/mainLearning}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{Explanation/mainExplanation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{Tools/Fusion/mainFusion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{Tools/Misc/mainMisc}
+\end{document}

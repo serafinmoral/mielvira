@@ -1,0 +1,151 @@
+\section{Introduction}
+
+Elvira is a software tool written in Java for construction and use of Probabilistic Graphical Models.
+It has been built with the support of the Spanish
+{\em Ministerio de Ciencia y Tecnolog\'{\i}a} through two
+research projects: Elvira (TIC97-1135-C04, 1997-2000) and Elvira~II
+(TIC2001-2973-C05, 2001-2004), with the participation of five partners:
+University  of Almería, University of the Basque Country, University of Castilla La Mancha, University of
+Granada, and the  Spanish University for Distance Education.
+
+The main aim of Elvira was to be used for research. The idea was to have a common framework in which
+the implementation of a new algorithm for some particular task was simple using the available data
+structures and, at the same time making easier  the comparison  experiments providing an important collection
+ of existing algorithms
+for the same task and  standard procedures to evaluate their performance. Nevertheless, Elvira
+can be also used to build real applications for concrete problems as it has a friendly interface
+to use graphical models.
+
+As a consequence, the  main characteristics of the software are:
+
+\begin{itemize}
+
+
+\item Elvira is multipurpose. It is for Bayesian networks (learning, inference, use),
+influence diagrams, and classification (both supervised and non-supervised).
+
+\item We have not selected an unique method or algorithm for each particular task.
+There are several ones available and in some cases, as in approximated evaluation
+on Bayesian networks, the number of possibilities is quite high.
+
+\item The programs are  changing dynamically. There are  several programmers
+working on the tool in parallel who incorporate modifications in a continuous way.
+
+\item There is not a plan to finish the project in the near future or even to produce
+an stable version of it. However, we also think that an stable version would
+be necessary in the long term.
+
+\end{itemize}
+
+Some of these characteristics can be seen as defects, but we feel that
+they provide the necessary flexibility for serving the research interests
+of the different participating groups.
+
+From the beginning we felt that our effort could also be useful to other
+research groups over the world and Elvira can be downloaded from
+its home page at: http://leo.ugr.es/~elvira. But in this moment,
+the utility of the software can limited by the lack of a general
+reference of all the implemented methods and procedures.
+Only  \cite{elvira02} is a summary of the state of Elvira in 2002.
+But now, Elvira programs are so large that it is even difficult
+for the participants to have an idea of everything included
+in it. It is for that reason that we have thought in writing this
+book which could serve as a guide for researchers and
+general users of Elvira.
+
+Each one of the chapters is devoted to a concrete aspect
+of Elvira. Three levels of description are considered:
+
+\begin{enumerate}
+
+\item {\em Abstract level.-} The algorithms are described in a precise
+but, at the same time, brief way. References are given to more
+detailed accounts of them.
+
+\item {\em User level.-} It is explained how to use the algorithms and facilities
+from the graphical interface.
+
+\item {\em Programmer level.-} The main procedures with their
+arguments are detailed. There are a lot of functions which only
+can be used at this level, being not available from the graphical
+interface.
+
+
+\end{enumerate}
+
+
+\section{Downloading and Installing Elvira}
+
+Elvira can be downloaded from its main web page \cite{elviraweb}.
+It is  a .tar.gz file. It can be decompressed  in Unix or Linux by using:
+{\tt tar zxvf bayelvira2.tar.gz}.
+In Windows 95, 98, 2000, XP, it can be decompressed by using the Winzip program.
+
+Detailed guidelines to use Elvira can be found in \cite{elvirainstall}.
+The easiest way to run Elvira in Windows is by double-clicking on the icon
+Elvira.jar in the installation directory.
+
+In linux, you must open a command shell on the directory in which you installed
+ Elvira and enter the command {\tt java -jar Elvira.jar}.
+  Elvira will automatically detect the language of your operating system.
+   Alternatively, you can write {\tt java -jar Elvira.jar -l ae} to
+see the interface in American English or {\tt java -jar Elvira.jar -l sp} to see it in Spanish.
+
+
+
+\section{Main Characteristics of Elvira}
+
+There are other programs to work with probabilistic graphical models \cite{hugin,genie,analytica}.
+See \cite{http://www.cs.ubc.ca/~murphyk/Bayes/bnsoft.html} for a quite complete list of Bayesian
+networks software. Elvira has some unique characteristics which make it very appropriate for
+some task, mainly research oriented work, but without discarding to be the basis for building
+real applications. Among them, we want to highlight the following ones:
+
+\begin{itemize}
+
+\item The definition of a very flexible format to store networks, databases, sets of observations,
+and experiments results. This format is very intuitive and can be edited with any text editor.
+It is described in detail in Chapter \ref{Ch:format}.
+
+\item A great variety of data structures. Apart from the array representation of conditional
+probability distributions, it also provides a representation by means of trees. This structure
+can improve the efficiency when there are asymmetrical independence relationships in the problem
+and are not implemented in other software tools.
+Elvira gives the possibility of using several types of canonical functions as noisy or-gates to simplify the specification of conditional
+probabilities when the number of parents is high. These aspects are described in Chapter \cite{Ch:data}.
+
+\item Elvira has a very important collection of algorithms for exact and approximate inference,
+both to compute the 'a posteriori' probability distribution and for partial abductive inference.
+Partial abduction is rarely found in any of existing tools.  These algorithms are described
+in Chapters \ref{Ch:exact} (exact inference) and \ref{Ch:approx} (approximate inference).
+
+\item Elvira is multipurpose. It includes Bayesian networks, but also models for supervised and unsupervised classification
+(see Chapter \ref{Ch:class}).  Also graphical models for decision problems (influence diagrams) can be built and used
+in Elvira, with bout exact and approximate algorithms (see Chapter \red{Ch:influence}).
+
+\item Elvira has a really collection of learning algorithms: based on independence tests and based on search + score.
+Different variations of each one of them are considered (based on different statistical tests, methods of search, or
+score functions). A detailed description of them can be found in Chapter \ref{Ch:learning}.
+
+\item The graphical interface has some special functions to explain the nature  of the represented knowledge (different colors and widths for the links)
+and the reasoning, allowing to follow the reasons for changes in probability when entering evidence (see Chapter \ref{Ch:explain}).
+
+\item As Elvira has been designed as a research tool, it has general procedures to carry out experiments. So, it has
+classical validation procedures for supervised classification as K-fold cross validation, also the computation of
+measures of discrepancy  within an original true model and the original one (differences in the structure or the
+computation of Kullback-Leibler distance between to Bayesian networks).
+
+
+
+\end{itemize}
+
+\section{Elvira Structure: Graphical Interface}
+
+Elvira has three main 
+
+
+\section{Classes Estructure}
+
+
+
+\section{Future Evolution of Elvira}

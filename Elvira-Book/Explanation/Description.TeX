@@ -1,0 +1,219 @@
+\section{Description of the explanation method through the GUI}
+\label{sec:description} In the case of Bayesian networks, there
+are three basic issues that can (must) be explained, as we have
+said before: the knowledge base, the reasoning process performed
+by the system to obtain (or not) a conclusion and the evidence
+propagated, if any. As it has been previously said, Elvira has two
+modes: \emph{Edit}, for editing the graphical model, and
+\emph{Inference}, for processing it and in which most of the
+explanation capabilities are provided.
+
+\subsection{Explanation of evidence}
+
+It consists in determining which values of the unobserved
+variables justify the available evidence. This process is usually
+called \emph{abduction}, and is based on the (usually implicit)
+assumption that there is a causal model. Since this topic has been
+explained with more detail in chapter 6, we will only remark that
+the purpose of this kind of explanation is basically to offer a
+diagnosis for a set of observed anomalies. For instance, in
+medical expert systems, an explanation consists of determining the
+disease or diseases that explain the evidence: symptoms, signs,
+test results, etc.
+
+
+\subsection{Explanation of the model} \label{sec:static}Also known as \textit{static explanation}
+\cite{Henrion90}, it consists in displaying the information
+contained in the knowledge base: nodes, links and the whole
+network. The objective is either to permit a human expert to
+examine the content of the knowledge base during the phase of
+\emph{construction} of the expert system or to offer a novice user
+some knowledge about the domain for \emph{instructional purposes}.
+
+\begin{description}
+\item [Explanation of nodes] The verbal explanation of a selected node
+is displayed on a new window which appears when the \emph{Explain
+Node} option in the contextual menu of the node is selected. It
+contains the following information: name, states, parents and
+children, prior odds, posterior odds, purpose and importance
+factor. The \emph{purpose} of a node is defined by the role played
+by such a node in the network. In fact one of the differences
+between Elvira and other tools is that nodes are classified into
+several categories, such as \textit{symptom} or \textit{disease}
+or some other roles defined by the user according to his/her
+needs. The \emph{importance factor} is a value assigned by the
+human expert and represents the importance of that node with
+respect to the rest of the nodes. Elvira also allows the user to
+navigate across the network. For the graphical explanation, nodes
+can be \emph{expanded}, through the \emph{Expand Node} option in
+the contextual menu or in the \emph{Inference} menu, or by
+clicking on the third icon in the tool bar. Expanded nodes are
+drawn with their name, their states, the graphical representation
+of their associated probabilities and their numerical value, whose
+precision can be selected by way of the \emph{Precision} option of
+the \emph{View} menu. When nodes are not expanded they are
+\emph{contracted}, in whose case they are represented by an oval
+containing only its name or its title, depending the option the
+user had selected in the \emph{View} menu.
+\item [Explanation of links.] ELvira can display the
+links of the network in different colors in order to offer
+qualitative insight about the conditional probability tables
+\cite{lacave03e}, based on the work about qualitative influences
+made previously by \cite{Wellman90a}. This option is offered both
+in Edit and Inference mode by selecting the \emph{Influences}
+option of the \emph{View }menu or by clicking on the icon with the
+red arrow crossed by a blue curve in the corresponding tool bar.
+Moreover, it is also possible to offer verbal explanations of a
+selected link trough the \emph{Explain Link} option of its
+contextual menu. In this case, a new window appears which contains
+the origin and destination of the link, the kind of relation it
+represents (IS-A, HAS-A, etc.) and the likelihood ratios for each
+state of the destination node. This option allows the user to
+understand the states of the origin which better explain each
+state of the destination.
+\item [Explanation of the network]
+The classification of nodes is used for generating verbal
+explanations of the whole network, which are displayed if the user
+selects the \emph{Explain Network} option when the contextual menu
+is open at any point of the inference panel and no node or link is
+being selected. It is also capable of offering \textbf{graphical}
+explanations, by explaining all nodes and links graphically, as
+indicated above. However, if the network has many nodes, the
+graphical display of all this information can be misleading for
+the user. In this case, he/she can simplify the explanation,
+selecting the nodes in the network to expand, by combining both
+the role and the importance factor of the nodes in the tool bar.
+This allows the user to display graphically only the nodes whose
+importance factor is greater than an \emph{importance threshold}
+and have a given role.
+\end{description}
+
+\subsection{Explanation of the reasoning} \label{sec:dynamic}This is sometimes
+known as \textit{dynamic explanation} \cite{Henrion90} and it
+tries to justify the results obtained by the system and the
+reasoning process that produced them. The most known methods for
+generating explanations in Bayesian networks \cite{lacave02} are
+related with \emph{sensitivity analysis to the parameters}
+\cite{Castillo97, Chan02, Coupe00, Laskey95}, in order to analyse
+how sensitive are the conditional probabilities to the parameters,
+or \emph{sensitivity analysis to the evidence,}
+\cite{jensen-book2001, Suermondt92} which consists in studying the
+effect the evidence exerts on the conditional probabilities of one
+or more variables.
+
+We have implemented in Elvira the following options for explaining
+the reasoning performed on a Bayesian network:
+\begin{description}
+  \item [Graphical display of probabilities] in the expanded nodes of the network, because it is one of the most
+  intuitive ways to understand the results.
+  \item [Sensitivity analysis to the evidence] by managing several evidence cases simultaneously and classifying the
+findings depending on the impact they have over a variable. These
+features of Elvira distinguishes it from the rest of software
+tools and they are based on the concept of \emph{Evidence Case},
+which is defined by the set of findings of the evidence and the
+probabilities associated to the unobserved nodes. The \emph{prior
+case} corresponds to the absence of evidence and its associated
+probabilities are the prior probabilities of every node in the
+network. To quickly identify observed nodes from the rest, they
+are coloured in gray.
+
+Taken this into account, the method provides the user different
+tools for analysing the effects of all the evidence has over the
+whole network or over one variable, as well as for studying the
+impact that each finding exerts individually, as we describe next:
+\begin{description}
+  \item \textbf{SA over the whole network} The idea consists in
+  displaying graphically each node of the network in different colours according
+   to the \underline{kind} and \underline{amount} of influence received by
+   the evidence \cite{lacave03e}, inspired also in Wellman's work on
+\emph{qualitative probabilistic networks} \cite{Wellman90a}. When
+the user selects the \emph{Automatic} option in the
+\emph{Explanation Options} of the Options menu, nodes receiving a
+positive influence from the evidence of the selected evidence case
+are coloured in red; colour blue is chosen for the negative
+influences and purple for the unknown influences.
+
+  \item \textbf{SA over one variable}
+
+  In case the user wants to focus only on certain variable, the user has to click on the icon
+ represented by a question tag in the tool bar and a new windows appears where the required variable must be selected.
+ Then, a table is displayed containing the name of each of its states together
+with their prior probabilities, the posterior probabilities and
+the logarithmic ratio of both probabilities. Moreover, he/she can
+get a \textbf{analysis of the findings} of the evidence which have
+a positive or negative influence over such variable, in two ways:
+\begin{itemize}
+  \item \emph{Automatically,} showing textually the kind and amount of influence each
+  finding has over one variable after pushing over the \emph{Why?} button in that window.
+
+  \item \emph{On demand,} when evidence has not too many findings
+  and the network is not too large. In this situation, the user
+  can create one case with all the evidence and others cases excluding
+  each finding of the evidence.
+  \end{itemize}
+
+  Apart from this, Elvira can \textbf{display of the chains of reasoning}
+  through which evidence flows if the user pushes over the \emph{How?} button in that window.
+  This is a very useful tool because it allows the user to focus only on the portion of the network
+  affected by the evidence. The algorithm used for it is the one proposed
+  by Suermondt \cite{Suermondt92}. The idea is to calculate all the predecessors of the nodes of the evidence and of the selected
+  variable $h$. After obtaining their related nodes, then nodes $n$ which are d-separated from $h$ by
+  the evidence except $n$ are removed. Finally, the nodes included in all paths from evidence to $h$ which contains only related nodes and which are not
+  d-separated are marked. Moreover, we propose the colouring of
+  the nodes in these paths depending on the kind and amount of influence
+  received by the evidence. The whole network can be displayed again by clicking on the last icon in the tool bar.
+\end{description}
+\end{description}
+
+To conclude this section, we describe below some interesting
+facilities provided by Elvira to help the user to manage the
+different evidence cases.
+
+\subsection{Management of the evidence cases}
+\label{sec:caseslist} At each moment, there can be several
+evidence cases stored and one of them is the \emph{current}
+evidence case. A different bar is displayed for each case in the
+expanded nodes, although only the numerical probability of the
+current case is displayed. The colour of the bars and of the
+highlighting rectangles are specific of each case. New findings
+are added to the current evidence case and the background colour
+of the window changes to gray, so that the user can easily
+identify the findings of the current case. All the findings
+introduced by the user are added to this case, until he decides to
+generate a new case or to select one of the cases previously
+introduced. Of course, the user can also remove some of the
+findings of the current case. In the case of the prior case, since
+it does not admit any evidence, when switching to inference
+mode, a second case is automatically generated, in order to store the findings entered by the user. \\
+The first two icons of explanation bar are respectively for saving
+an evidence case to a file and for generating a new case. There is
+also a text field that displays the name and colour of the current
+case, together with buttons for navigating across the set of
+evidence cases. The following two icons besides those serves for
+deleting the evidence of the current evidence case and for
+removing every evidence case from the list of cases but the prior
+case.
+\begin{itemize}
+\item  {Monitor of cases}. If the user also wishes to
+control which cases are stored and displayed, he/she can open the
+monitor of cases by selecting this option in the \emph{Inference}
+menu or clicking on the corresponding icon in the tool bar. This
+monitor contains two icons for creating and editing evidence
+cases, a \emph{Delete} button for removing cases from memory, and
+the \emph{Options} button for setting the number of
+stored/displayed cases and other properties. Each stored case
+corresponds to a row in a three-column table: the first cell of
+the row contains a checkbox for indicating whether the stored case
+is displayed or not; the second cell is an editable field for
+introducing the name of the case; and the third cell allows the
+user to change the color assigned to that case.
+
+\item  {Editor of Cases}.In Elvira, a finding can be introduced by double-clicking on the
+corresponding line of the expanded node or by opening the Editor
+of Cases after clicking on its icon in the tool bar or by
+selecting that option in the \emph{Inference} menu. A pull-down
+menu gives access to the list of variables in the network, so that
+the user can enter additional findings. The main utility of this
+editor is to enter or remove evidence when the number of variables
+is so high that it becomes impossible or cumbersome to display the
+whole network on a screen.\end{itemize}

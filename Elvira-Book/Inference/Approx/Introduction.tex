@@ -1,0 +1,37 @@
+\section{Introduction}
+
+Consider a Bayesian network defined for a set of variables $\bX=\{
+X_1,\ldots,X_n\}$, where each variable $X_i$ takes values on a
+finite set $\Omega_{X_i}$. If $I$ is a set of indices, we will
+write $\bX_I$ for the set $\{ X_i|i\in I\}$, and $\Omega_{\bX_I}$
+will denote the Cartesian product $\times_{i\in I}\Omega_{X_i}$.
+Given $\bx\in \Omega_{\bX_I}$ and $J\subseteq I$,  $\bx_J$ is the
+element of $\Omega_{\bX_J}$ obtained from $\bx$ by dropping the
+coordinates not in $J$.
+
+\begin{definition} \label{def:approximate} Let $\bE\subset \bX$ be a set
+of observed variables and $\be\in\Omega_{\bE}$ the instantiated
+value. An algorithm which computes $\hat{p}(x|\be)$, an estimation
+of $p(x|\be)$, for each $x\in\Omega_{X}$, $X\in \bX\setminus \bE$
+is called an {\em approximate propagation algorithm}.
+\end{definition}
+
+Several approximate propagation algorithms have been developed,
+which can be classified into two groups: \textit{deterministic}
+and \textit{Monte Carlo}.
+
+The more recent deterministic algorithms \cite{Can00,Can02,Can03}
+are based on approximating the operations carried out during the
+propagation (combination and marginalisation).
+
+On the other hand, Monte Carlo methods consist of transforming the
+task of probability propagation into a statistical estimation
+problem: a sample is drawn from the Bayesian network and the
+posterior probabilities are estimated from it
+\cite{Her98,Jen95,Sal2000,Sal01}.
+
+Elvira implements both kinds of algorithms. More precisely, Monte
+Carlo algorithms in Elvira are based on importance sampling and
+deterministic methods comprise the Penniless propagation scheme
+and approximate versions of the Hugin propagation and the variable
+elimination algorithm.

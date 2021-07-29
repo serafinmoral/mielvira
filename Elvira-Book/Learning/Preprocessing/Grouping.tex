@@ -1,0 +1,85 @@
+\section{Grouping}
+
+As we have seen, {\em discretization} is a well known techique which is
+applied over continuous variables to get nominal or discrete ones. 
+Discretization is applied because: (1) some data mining algorithms cannot
+cope with numerical variables (i.e. ID3 or most Bayesian networks based
+methods); or, (2) data reduction is required, and then discretization can
+be applied for noise reduction or data smoothing. However, the last reason
+also applies when we have a discrete/nominal variable but it has a large
+number of states. How can we reduce noise in this type of variables?
+In this section we explain how this problem has been managed in Elvira.
+
+\subsection{Methods}
+
+The problem of {\em discretizing} nominal variables is called {\em grouping}
+\cite{BerkaBruha98}. As discretization, grouping can be supervised 
+(oriented to classification) or unsupervised. At the moment only
+the supervised version is implemented, concretely the KEX algorithm 
+\cite{BerkaBruha98}. This algorithm takes a nominal
+input variable $X$ with $\{s_1, \dots, s_k\}$ possible states and the 
+class variable $C = \{c_1,\dots,c_r\}$, and produces an output variable
+$X_g$ with exactly $r+1$ states: $\{c_1,\dots,c_r,c_{r+1}\}$. That is,
+for each state $s_i$ we compute the distribution (frequencies) $P(C,s_i)$ from data,
+and $s_i$ is assigned to the outstanding class label. If there is no such
+outstanding class label, then $s_i$ is assigned to $c_{r+1}$ which has
+the semantic of {\sf unknown}. The existence of an outstanding class label
+in the sample distribution $P(C,s_i)$ is decided by using a $\chi^2$ test with respect to the uniform distribution and, if there is significant difference, the class label with highest frequency is selected.
+
+In addition to KEX we have implemented KEX2, which is a slight variant of the method previously described. Thus, if we have a class with four classes (s1,s2,s3,s4), suppose that we get the following distribution for a given state of the variable to be grouped: {\sf [0,30,32,2]}. In this case KEX finds that this distribution is significantly from a uniform distribution and so the given state is assigned to $s3$ (the outstanding class label). However, though this distribution is clearly different from the uniform, it is $s3$ a true outsanding label?. In KEX2 we have added the following modification: if significant difference is found with respect to the uniform, then a new test is carried out but considering only the distribution between the two majoritary classes (i.e. s2 and s3 in the previous example). If difference is found in this second test, the analysed state is assigned to the outstanding class,
+in other case it is assigned to {\sf unknown}.
+
+
+\subsection{Grouping.java}
+
+The previous method has been implemented in Elvira and is located in 
+the class Grouping.java. At the moment only KEX method is implemented,
+although the class is prepared to incorporate new algorithms. On the 
+contrary of {\sf Discretization}, {\sf Grouping} cannot be configured for
+each variable, and so, the same algorithm is applied over all the previously
+selected attributes. The main methods are:
+\begin{itemize}
+\item {\tt setTargetVariables(Vector v)}: sets the variables passed as
+parameter as the target for the grouping process.
+\item {\tt setAlgorithm(int i)}: sets the algorithm to be used.
+\item {\tt setClassVar(int i)} sets as class the variable in position $i$
+of the network variables. For unsupervised process {\tt i=-1}.
+\item {\tt apply()}: invokes the proper grouping algorithm according to the
+parameter setting.
+\item {\tt Kex()}: performs grouping by using the algorithm previously described.
+\item {\tt differenceInDistribution(int[] dist,int numSamples, double alpha)}: this 
+methods apply $\chi^2$ test over the frequencies passed as parameter and taking into
+account the desired significance level (alpha).
+\end{itemize}
+
+\subsection{Use of Grouping}
+
+At the moment {\tt Grouping} can be only used from the command line. Thus,
+if you type {\tt java Grouping} you will get the following message:
+
+\begin{verbatim}
+USAGE:  <program> <input file.dbc> <output file.dbc> <algorithm> <class>
+        <numbins|-1> <all|more numbins|list v1 v2 ...>
+<algorithm> :
+Algorithm: 0 => KEX
+Algorithm: 1 => KEX2
+<class> : the index of the class variable (1,2,...
+<numBins> : the number of bins or -1 if has to be discovered by the algorithm
+<target> : all, more numbins or list followed by the indexes
+\end{verbatim}
+
+Therefore the user has to indicate:
+\begin{itemize}
+\item The input and output data base files.
+\item The index of the algorithm to be used (0 for KEX and 1 for KEX2).
+\item The index of the class variable following the ordering in the input.dbc definition.
+\item The number of bins in which the variable will be grouped. The value 
+-1 is used for those algorithms (like KEX) that discover the number of groups by theirselves.
+\item The attributes to be grouped. There are three ways of selecting them:
+\begin{itemize}
+\item {\sf all}. In this case all the discrete variables are selected.
+\item {\sf more X}. In this case all the discrete variables with more than X states are selected.
+\item {\sf list X,Y,...}. In this case the user directly specify the variables (X,Y,...) to be selected.
+\end{itemize}
+\end{itemize}
+

@@ -1,0 +1,24 @@
+\section{Learning}
+\label{sec:learning}
+
+Elvira is not only able to edit and use (perform inference with) Bayesian networks, it can also automatically build Bayesian network models from data (only discrete variables are considered up till now). This task may be divided in two subtasks: learning the network structure and estimating the numerical parameters (conditional probabilities).
+  
+Although there is a great number of algorithms for learning the structure of Bayesian networks from data, most of them can be partitioned into two general approaches: methods based on {\it conditional independence tests} (also called {\it constraint-based}), and methods based on a {\it scoring function} and a {\it search} procedure (although there are also hybrid algorithms that use a combination of constraint-based and scoring-based methods).
+
+The algorithms based on tests of independence  take as the entry a list of conditional
+independence relationships (obtained from the data by means of conditional independence tests) and generate a network that represents most of these relationships. Within this category, Elvira includes the well-known PC algorithm \cite{Spirtes93}.
+
+The algorithms based on a scoring function try to find the graph that `best' represents the data, according to a specific criterion. All of them  use a scoring function in combination with a search method to measure the goodness of each explored structure from the space of feasible solutions. During the exploring process, the scoring function is applied to evaluate the fitness of each candidate structure to the data. Each one of these algorithms is characterized by the specific scoring function and search procedure used. The scoring functions are based on different principles, such as entropy, Bayesian approaches, or Minimum Description Length. At present, Elvira can use three scoring functions: K2 \cite{CooHersk:k2}, BIC \cite{Schwarz78} and BDeu \cite{heckgeigerchick}. 
+
+Focusing on the score+search approach, currently Elvira implements a Local Search (LS) algorithm \cite{heckgeigerchick}, the well-known K2 algorithm \cite{CooHersk:k2} and a distributed version of Variable Neighbourhood Search (DVNS) \cite{campospuertaISAS01}. In the near future we will include, among others, algorithms based on Ant Colony Optimization (ACO) \cite{ijar02:cfgp}, Estimation of Distribution Algorithms (EDA) \cite{Blanco02}, Genetic Algorithms (GA) \cite{larra:pami} and Greedy Randomized Adaptive Search Procedures (GRASP). All these algorithms use different search methods but the same search space: the space of dags. An alternative is the space of the orderings of the variables (using a secondary search process in the space of dags): Elvira incorporates an algorithm of this kind, K2SN \cite{campospuertaESQ01}, and will include also algorithms based on ACO and VNS \cite{campospuertaESQ01}. A representative of another option, namely the space of equivalence classes of dags \cite{jair02:ac}, will be added too.
+
+With respect to parameter learning, Elvira can use two different procedures to estimate the required conditional probabilities: Maximum Likelihood Estimation (MLE) (i.e., frequency counts) and Laplace Approximation (i.e., Bayesian approach) \cite{CooHersk:k2}. 
+
+The database files used as the input to all the learning algorithms have to be given in a specific text format. At present, Elvira does not manage missing values (i.e., it assumes a complete dataset). It also assumes no latent variables.
+
+The PC, K2, K2SN and DVNS algorithms can be easily used from the GUI: first, you must open a database; second, you must select and algorithm and set its particular parameters, in the options menu; and then, you can run the learning method. These algorithms can also be used from the command line (if you run the algorithms without arguments you will be informed about the required arguments).
+
+In the future we plan to include tools to manage constraints to the learning process
+(forced and/or missing arcs, partial ordering of the variables, or forced conditional
+independence relations between variables).
+

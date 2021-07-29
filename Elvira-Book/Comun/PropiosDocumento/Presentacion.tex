@@ -1,0 +1,72 @@
+\typeout{>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>}
+\typeout{>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>}
+\typeout{>>>> Presentacion.tex de Elvira-Book define la apariencia del documento}
+\typeout{>>>> simplificar la escritura.
+CUIDADO: No uses nunca "renewtheorem"} \typeout{>>>>}
+
+%Fuentes -> Introducelas al comienzo del fichero Paquetes.tex
+
+%Profundidad de la tabla de contenidos
+    \setcounter{secnumdepth}{4}
+    \setcounter{tocdepth}{4}
+
+
+%Tamaño Papel
+        %%%%% Descomentar la siguiente línea para la versión final
+    %\usepackage[a4paper]{geometry}
+        %%%%% Definimos el maximo tamaño posible mientras se hagan versiones.
+        %%%%% Comentar las siguientes líneas  para la versión final.
+        \marginparwidth 0pt     \marginparsep 0pt
+        \topmargin   0pt        \textwidth   6.5in
+        \textheight 23cm
+        % Margen izq del txt en impares.
+        \setlength{\oddsidemargin}{.0001\textwidth}
+        % Margen izq del txt en pares.
+        \setlength{\evensidemargin}{-.04\textwidth}
+        % Anchura del texto
+        \setlength{\textwidth}{.99\textwidth}
+
+
+
+%Para los Títulos e índices iniciales
+    %OJO!! Introducir \usepackage{titlesec} en Paquetes.tex
+
+\titleformat{\chapter}[display]
+    {\normalfont\Large\filcenter\sffamily}
+    {\titlerule[1pt]%
+     \vspace{2pt}%
+       \titlerule\LARGE\MakeUppercase{\chaptername} \thechapter}
+    {1pc}
+    {%\titlerule
+     \vspace{1pc}
+     \Huge}
+     [\vspace{1pc}%
+     \titlerule%
+     \vspace{1pt}%
+     \titlerule%
+     \color{black}]
+
+
+
+\newpagestyle{main}[\small\sffamily]{
+\headrule
+\footrule
+\sethead [\textbf{\thepage}]
+[\textsl{\chaptertitle}]
+[Chapter \toptitlemarks\thechapter]
+{Section \toptitlemarks\thesection}
+{\textsl{\sectiontitle}}
+{\textbf{\thepage}}
+\setfoot[]%
+        [\small \textcolor{red}{\textbf{Elvira Consortium - DRAFT}}]%
+        []
+        {}%
+        {\small \textcolor{red}{\textbf{DRAFT}}}%
+        {}
+}
+\pagestyle{main}
+
+\typeout{<<<<}
+\typeout{Definida la Presentación de Elvira-Book}
+\typeout{<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<}
+\typeout{<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<}

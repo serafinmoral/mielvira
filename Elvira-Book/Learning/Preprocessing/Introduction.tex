@@ -1,0 +1,83 @@
+\section{Introduction}
+Data quality is a key issue in Data Mining; if data quality is not good
+enough algorithms can not reveal all the information contained in the data
+and revealed information can not be as precised as expected. In the real world,
+databases lack off some non-desirable characteristics such as:
+
+\begin{itemize}
+    \item   Incomplete: Missing Values.
+    \item   Noisy: Errors or Outliers.
+    \item   Inconsistent: Discrepancies or Inconsistent Names.
+\end{itemize}
+
+On the other hand there are other characteristics that although they are not been
+as negative as the previous one, can lead to an efficiency reduction or 
+make analysis difficult e.g. a database with thousands of variables
+(very common in bioinformatics).
+
+Data nature can also be a key issue because data can imply the use of 
+some specific kind of algorithms to perform specific operations on data and
+not any other. This problem is addressed when algorithms are not as efficient as
+expected or these can requiere too much CPU. This situation leads to the fact some 
+transformations should be made to data with an information loss.
+
+But there exist other kind of problems related to the relation between 
+different databases. This fact can generate some problematic situations:
+\begin{itemize}
+    \item   The same concept expressed differently in each database.
+    \item   The same attribute can contain values expressed in different ways.
+    \item   The same attribute name means different things.
+    \item   \ldots
+\end{itemize}
+
+So in these conditions a preprocessing task must be performed in order to increase
+data mining technique efficiency. It is very typical that preprocessing steps can
+require much more effort than our initial target.To solve, this each problem has 
+been identified, studied and analyzed leading to the birth of some typical tasks.
+
+Preprocessing tasks can be grouped in:
+\begin{itemize}
+    \item   \textbf{Data Cleaning}: missing values are handled (e.g. using most probable
+    		value based on existing data), outliers are removed (by means of histograms,
+    		cluster analysis, or regression) and incosistents are solved.
+    \item   \textbf{Data Integration}: integration and consolidation of different sources into
+    		only one repository.
+    \item   \textbf{Data Normalization}: scaling data values in a range such as $[0..1]$ or 
+    		$[-1..+1]$ can prevent outweighting features.
+    		Typical methods are:
+    		\begin{itemize}
+    			\item	Min-Max: 
+				\begin{eqnarray}
+					y'=\frac{(y-max)}{max-min}(max'-min')+min' 
+				\end{eqnarray}
+				where $max'=1$ and $min'=-1$ or $min'=0$.
+    					
+    			\item	Z-Score:
+				\begin{equation}
+					y'=\frac{y-\mu}{\sigma}
+				\end{equation}
+    			\item	Decimal Scaling: 
+				\begin{eqnarray}
+					y'=\frac{y}{10^{n}} \text{ n is the number of digits.}
+				\end{eqnarray}
+    		\end{itemize}
+		in any case $y$ is the original data and $y'$ is the scaled data.
+    \item   \textbf{Data Reduction}: increasing the efficiency reducing the huge data set to 
+    		a smaller representative.
+    		Typical methods are:
+    		\begin{itemize}
+    			\item	Discretization.
+    			\item	Filtering Measures.
+    			\item	Data Aggregation.
+    			\item	Data Compression.
+    			\item	Dimension/attribute reduction.
+    		\end{itemize}
+\end{itemize}
+
+Elvira is able to perform the most typical tasks in preprocessing:
+\begin{itemize}
+    \item   Discretization
+    \item   Filtering Measures.
+    \item   Imputation
+    \item   Aggregation
+\end{itemize}

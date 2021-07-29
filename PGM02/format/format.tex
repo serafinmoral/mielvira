@@ -1,0 +1,90 @@
+\section{The Elvira Format}
+In the Elvira program, Bayesian networks and influence Diagrams are
+defined by using the {\em Elvira specification format}. This format
+is used to maintain both kind of networks in ASCII files (normally
+with extension .elv). A network contains three kinds of elements: a
+set of nodes, a set of links and a set of relations among the
+nodes. A node contains information about one of the variables of
+the network. Variables can have a finite number of possible states
+(discrete variable) or they can have a continuous domain
+(continuous variable). A link specifies the two nodes that it
+joins. A link could be directed or undirected. A relation describes
+a set of variables connected in some way, and it can provide
+numerical information about the variables by means of a {\em
+potential}. For example, a relation could represent a conditional
+probability distribution or an utility function. Different kinds of
+potentials can be used in the  Elvira format, such as tables,
+probability trees and functions.
+
+We can define a set of properties for each element of the network
+(nodes, links and relations). For example, for nodes we can define
+a title, a comment, a position $x$ and $y$ for the graphical
+interface, a kind of node (chance, decision or utility). If the
+node is a finite-states node, we can define the names of its
+states. If the node is continuous we can define the minimum and
+maximum values it can take on. For links we can specify if the link
+is directed or undirected, and a comment. For relations we can
+specify a comment, the kind of relation (potential, conditional
+probability), and the numerical information by means of a potential.
+Potentials can be represented in different forms. See the
+example below as an overview.
+The properties of the three kinds of elements take a default value
+when they are not specified. A default value can
+be redefined as we will show below.
+
+Apart from the properties for each element, there are general 
+properties for the network such as
+title, comment, author, version, etc. A special kind of general property is the {\em default property}.
+A default property defines the value a property will take in the elements of the network, when
+it is not specified in that element.
+
+As an example of a Bayesian network in the Elvira format we show the
+next network taken from \cite{coo84}
+
+\begin{small}
+\begin{verbatim}
+bnet Cancer {
+  title="Diagnosis of metastatic cancer";
+  author="Greg Cooper";
+  whochanged="Elvira Consortium";
+  default node states=(absent present);
+node A { title="Metastatic cancer";
+  comment="It is ill or not"; }
+node B { title="Serum calcium";
+  states=(normal high); }
+node C { title="Brain Tumor";
+  states = (present absent); }
+node D; node E;
+link A B; link A C; link B D;
+link C D; link C E;
+relation A {
+  comment = "Probabilities for metastasis";
+  kind-of-relation=conditional-prob;
+  values= table (0.2 0.8 ); }
+relation B A {
+  values=table ([high,present]=0.8,
+  [high,absent]=0.2,[normal,present]=0.2,
+  [normal,absent]=0.8); }
+relation C A {
+  values= table (0.05 0.2 0.95 0.8 ); }
+relation E C {
+  values= table (0.8 0.6 0.2 0.4 ); }
+relation D B C{
+  values=tree (
+    case D{
+      present=case B{
+        high=0.8;
+        normal=case C{
+          present=0.8; absent=0.05; }
+      }
+      absent= case B{
+        high=0.2;
+        normal=case C{
+          present=0.2; absent=0.95; }
+      }
+    }
+  );
+}
+}
+\end{verbatim}
+\end{small}

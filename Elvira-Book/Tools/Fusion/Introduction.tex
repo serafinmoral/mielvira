@@ -1,0 +1,26 @@
+\section{Introduction}
+Expert systems based on graphical models are one of the most succesful and useful products 
+emerged from Artificial Intelligence research. By using graphical models is possible to 
+efficiently encode large joint probability distributions that would be unmanageable in other way. 
+This is due to the fact that graphical models offer a language to describe a joint probability 
+distribution in terms of local probabilistic dependences between events~\cite{jensen-book2001}. 
+Moreover, if there exists enough conditional independences, the number of
+required parameters is reduced to a reasonable size.\\
+
+We deal with the task of representing compactly the belief obtained from the 
+combination of the belief of a group of experts by means of a Bayesian network. A Bayesian network 
+usually codifies one expert's subjective belief, otherwise, when building a greater model, we can 
+consult with several experts, each one specialized in some knowledge subset of the whole domain. 
+It would be desirable to combine all that knowledge provided under the form of Bayesian networks
+into a single more general representation.\\
+
+The fusion proces has two different phases. First, we combine independence graphs based on the 
+union and intersection of independences of the initial models. Then, the combination of probability 
+values is performend taking as basis the consensus graph. So, {\em qualitative aggregation} deals with 
+the estimation of the consensus model's structure, whilst {\em quantitative aggregation} deals with 
+the estimation of the consensus model's parameters. Thus, the order in which these types of 
+aggregation are been performed, determines the main approaches that have been addopted to tackle 
+with the Bayesian network agregation problem.
+
+
+

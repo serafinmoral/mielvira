@@ -1,0 +1,95 @@
+\section{Importance Sampling}
+
+Importance sampling is well known as a variance reduction
+technique for estimating integrals by means of Monte Carlo methods
+(see, for instance, \cite{Rub81}). Here we study how to use it to
+estimate conditional probabilities.
+
+The technique is based on sampling configurations $\bx \in
+\Omega_{\bX}$ with a given probability function $p^*:\Omega_{\bX}
+\rightarrow [0,1]$, verifying that $p^*(\bx)>0$ for every point
+$\bx$ such that $p(\bx,\be )>0$. Then for each configuration, its
+weight is computed:
+\begin{equation}
+  w(\bx) = \frac{p(\bx,\be)}{p^*(\bx)} \enspace .
+\end{equation}
+
+If we obtain a sample of size $m$ $(\bx^1,\ldots,\bx^m)$ with
+its corresponding weights $(w(\bx^1),\ldots,w(\bx^m))$ we have the
+following facts:
+
+\begin{enumerate}
+\item The average of the weights $\sum_{i=1}^{m}w(\bx^i)$ is an
+  unbiased estimator $\hat{p}(\be)$ of the probability of the
+  evidence $p(\be)$.
+  
+\item If $p^*(\bx) \propto p(\bx,\be)$ then the variance of this
+  estimator is 0. In general, this is not possible, but we should
+  select $p^*(\bx)$ as close as possible to $p(\bx,\be)$.
+  
+\item For any event $A$ (for example, the event $A \equiv
+  [X_i=x_i]$) the weighted average of the cases in the sample in
+  which the event $A$ is verified is an unbiased estimator
+  $\hat{p}(A|\be)$ of $p(A|\be)$:
+  \begin{equation}
+    \hat{p}(A|\be) = \frac{\sum_{A \mbox{ is verified in } \bx^j}
+      { w(\bx^j) }}{ \sum_{j=1}^{m}w(\bx^j)}
+    \enspace .
+    \label{eq:estimation}
+  \end{equation}
+  
+\item If $p^*(\bx) \propto p(\bx,\be)$, then the variance of this
+  estimator is $p(A|\be)(1-p(A|\be))/m$.
+
+\end{enumerate}
+
+The general structure of an importance sampling algorithm is as follows:
+
+\bigskip\noindent
+\textsf{\textbf{Importance\_Sampling}}
+
+\begin{enumerate}
+  
+\item For $j:=1$ to $m$ (sample size)
+  \begin{enumerate}
+  \item $T:=\{ p_i^{R(\bE=\be)}, ~ i=1,\ldots,n\} \cup \{ \delta_X | X\in\bE\}$
+  \item Generate a configuration $\bx^{(j)}$ using $p^*$.
+    Calculate
+    \begin{equation}
+      w_j:=\frac{\left( \prod_{f\in
+            T}f(\bx^{(j)}_f)\right)}{p^*(\bx^{(j)}) } \enspace .
+      \label{peso}
+    \end{equation}
+  \end{enumerate}
+\item For each $x_i \in \Omega_{X_i}$, estimate $p(x_i , \be)$
+  using equation (\ref{eq:estimation}) where $A$ represents the event
+  $[X_i=x_i]$.
+\item Normalise values $p(x_i , \be)$
+  in order to obtain $p(x_i | \be)$.
+\end{enumerate}
+
+In the above algorithm $\bx^{(j)}_f$ denotes the configuration $\bx^{(j)}$
+obtained by leaving only the coordinates of the variables for which
+$f$ is defined.
+
+The determinant aspects of an importance sampling  algorithm are the
+computation of the sampling distribution $p^*$ and the sampling
+procedure. Regarding the obtainment of the sampling distribution, the
+next methods are considered in Elvira:
+
+\begin{itemize}
+\item Use the conditional distribution to simulate the variables in
+  topological order. This is known as {\em forward sampling} or {\em
+    probabilistic logic sampling}.
+  \cite{Hen88}.
+\item Obtain the sampling distribution through a pre-computation
+  consisting of an approximate variable elimination propagation,
+  either using probability tables \cite{Her98} or probability trees
+  \cite{Sal2000}.
+\end{itemize}
+
+Attending to the sampling procedure, there are two versions of
+importance sampling implemented in Elvira. One of them is based on the
+use of antithetic variables \cite{Sal01} and the other one relies on
+the dynamic update of the sampling distribution according to the
+configurations previously simulated \cite{Mor03}.

@@ -1,0 +1,117 @@
+==========================================================================
+Orientaciones para el desarrollo del articulo: estructura de directorios.
+==========================================================================
+
+0. En el directorio que hayas descaragado del CVS te encontrarás con una 
+	serie de directorios y 2 ficheros.
+		A. Los directorios se explican en los puntos siguientes.
+		
+		B. El fichero Elvira-Presentation.tex es el documento principal.
+			(en principio no es necesario modificarlo)
+			
+		C. El fichero 'acl.bst', es el fichero de estilo bibliografico. Debe
+			encontrarse en el mismo lugar que el fichero
+			Elvira-Presentation.tex y no debe modificarse.
+		
+
+1. Los Paquetes, Ambientes, Comandos y Presentación del 
+	documento se encuentran en el directorio 'comun'.
+	En principio sólo se encuentra el estilo del Workshop (pgm02sub.sty) y
+		no creo que sea necesario añadir más ficheros.
+		
+	El directorio 'comun/pgm02' contiene los siguientes ficheros:
+	 * 'pgm02_style.tgz'. Indica las normas de publicación.
+	 * 'Directorios.txt'. Muestra los ficheros iniciales y la estructura 
+	 	de directorios que deberíais de tener cuando recupereis por 
+		primera vez los ficheros del depósito.
+		Os servirá además para entender un poco mejor lo que se comenta
+		a continuación.	
+
+2. El directorio 'bib' contiene el fichero 'Elvira-Presentation.bib' que
+	es la base de datos bibliográfica del artículo.
+	
+3. El directorio 'out' contiene las salidas bbl, dvi, ps y pdf del documento -
+	siempre que lo hagas con el fichero Makefile.
+	
+	Así, para visulizar el .dvi con 'xdvi' deberás ejecutar 
+		xdvi out/Elvira-Presentation
+		
+
+4. El directorio 'warnings' contiene los ficheros auxiliares (.aux, .log, etc) -
+	siempre que lo hagas con el fichero Makefile.
+
+5. Cada directorio distinto de 'comun', 'bib', 'out' y 'warnings' es una sección
+	del libro articulo.
+
+6. Ya existe un fichero por cada sección en su directorio correspondiente y son
+	los que deben actualizarse. NO DEBERIAIS CAMBIAR el nombre al fichero que 
+	ya existe.
+	
+	Cada directorio debería contener sólo un fichero que comience por 
+	\section{...}
+	
+	Si necesitaras añadir un nuevo fichero recuerda incluirlo en
+	Elvira-Presentation.tex
+
+7. Para los gráficos.
+	a) ¿Donde almacenar los gráficos?
+	Incluye los graficos en el directorio fig de cada sección (directorio) y 
+	sálvalos tanto en formato Postscript (.ps o .eps) como en formato PNG.
+	
+	Por ejemplo, si para el capítulo GUI necesitas el fichero gráfico 'captura',
+	crea los ficheros 'captura.eps' y 'captura.png' y sálvalos en el directorio
+	'gui/fig/'
+	
+	De esta forma nos garantizamos de que no existan solapamiento en los
+	nombre de los gráficos aunque 2 autores decidan darle el mismo nombre 
+	a los gráficos que generen - estarán en directorios distintos.
+
+	
+	b) Referencia a los gráficos.
+	
+	Para hacer referencia a los gráficos tendrás que hacerlo relativo al lugar
+	donde se encuentre el fichero Elvira-Presentation.tex y SIN extensión.
+	
+	De este modo se puede generar .Ps y .Pdf sin tocar el documento.
+	
+	Por ejemplo, para incluir el fichero gráfico 'captura' tendrás que hacerlo
+	así:
+	\includegraphics{gui/fig/captura}
+	
+	Nota: Teneis un ejemplo en de cómo hacerlo en el fichero gui/gui.tex,
+	hasta que éste se modifique ;-)
+	
+8. Compilación. Se realiza mediante un Makefile (sólo para sitemas UNIX).
+	Para obtener una versión dvi, ejecuta 'make'.
+			(Via LaTeX)
+	Para obtener una versión ps, ejecuta 'make ps'.
+			(Via dvips)
+	Para obtener una versión pdf, ejecuta 'make pdf'. 
+			(Via pdflatex. Además se visualizará con acroread)
+	
+	Para borrar el contenido del directorio 'warnings', ejecuta 'make clean'.
+	
+	Si por algún error en la compilación en el directorio principal se
+	generan ficheros de salida o de trazas, ejecuta 'make mover' para poner
+	cada fichero extra en su directorio correspondiente.
+	
+9. ¿Por qué el abstract tiene referencias?. Sencillo. Cuando en un documento
+	latex se utiliza el comando \bibliography{Ficherobib} y No existen
+	referencias (p.e. \cite{}), se generan errores.
+	
+	Para evitar esos errores y para que no se generen ficheros innecesarios
+	en el directorio principal aparecen referencias en el abstract que deberán
+	de ser borradas cuando se realice el documento final o cuando se realice
+	alguna cita en alguno de los ficheros que deben modificarse.
+	
+	
+10. Dos recordatorios. 
+	A. Para actualizar una seccion ejecuta 'cvs commit dir/dir.tex'.
+		P.e. 'cvs commit gui/gui.tex'
+	B. No mandeis al repositorio los directorios 'out' y 'warnings' ya que son 
+		los ficheros de salida y mensajes propios que generais cada uno de
+		vosotros con vuestra compilación  y no son necesario en el documento 
+		final.
+	
+Buena escritura, y un saludo a todos
+	L. Daniel

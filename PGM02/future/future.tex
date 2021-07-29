@@ -1,0 +1,77 @@
+\section{An Ongoing Project: The Future}
+In this section, we will enumerate some points that we plan to
+develop within the Elvira project in the near future. By means of these improvements,
+ our aim is to convert Elvira in an useful tool for the community of
+researchers in probabilistic graphical models.
+
+Points to be added to the current Elvira version are related with
+the format, the graphical interface, the preprocessing step of data,
+inference algorithms and the learning process of a graphical probabilistic structure
+from data.
+
+Related with the {\em Elvira format} we aim to develop its
+specification on XML format. In this way, we will obtain an
+automatic translation to other formats that are currently used by academic and
+commercial software in the field of probabilistic graphical
+models. We also plan to specify Gaussian variables, as well as
+canonical models. While with the former we will model continuous
+variables, with canonical models we will avoid the exponential
+growth of the probability tables related with the number of parents
+of each variable. Finally, we hope to accelerate the reading process
+in huge databases.
+
+Desired advances for the {\em graphical interface} are
+related with the integration of already implemented learning methods, as
+well as the explanation phase. We plan also to add verbal
+explanations. We will integrate the already implemented methods to
+evaluate influence diagrams, allowing the users to select the
+evaluation method and showing the results through the graphical
+user interface.
+
+
+In the {\em preprocessing} step of databases that will
+be used by structural learning algorithms, our objective is to implement
+filter, wrapper and hybrid methods in order to solve the feature
+subset selection problem. We also aim to implement procedures to
+transform variables, methods for the imputation of missing data
+and algorithms for the discretization of continuous variables.
+
+In relation with {\em inference algorithms}, we plan to add new
+algorithms to the wide range of actually implemented ones.
+In the category of exact algorithms, we plan to implement the
+Shafer--Shenoy scheme, as well as the lazy evaluation for
+continuous variables. For both types of methods of evidence
+propagation --exact and approximate-- we plan to develop and
+implement algorithms for incremental triangulation. The objective
+of these algorithms is to obtain a good triangulation for a graph
+that is the result of a small modification of an initial graph from
+which a good enough triangulation is known in advance. In this
+point we will also include some advances in abductive inference. As
+the specification of the  explanation set is not an easy task
+within the abduction problem, we envision to develop a set of
+methods that will try to solve this difficulty. For influence
+diagrams we will add MonteCarlo algorithms with the aim to
+alleviate the computational burden arised when dealing with complex
+decision problems.
+
+In relation with {\em learning} process, our plan is to add some
+algorithms to the actually implemented ones, organizing them
+with respect to six different characteristics or axes. The first one is related 
+with the objective of the learning process. According to it, we
+will split the learning algorithms depending whether they try to
+show the conditional (in)dependencies between the variables or 
+the final objective is to build a supervised or unsupervised classification system.
+The second division axis is devoted to the nature of the approach used
+to model the data: detection of conditional (in)dependencies or
+approaches based on score + search. An hybrid approach can
+be also considered. The next characteristic to be taken into account
+concerns the complexity of the learned structure: tree, polytree
+or multiple connected network. The fourth aspect is related with
+the space of search: directed acyclic graphs, the space of
+equivalence classes or the space of the orderings between variables.
+The fifth axis to split the different learning
+algorithms refers to the nature of the variables: discrete, continuous
+or mixed. Finally it can be considered whether the
+domain to be modeled is static or dynamic.
+
+

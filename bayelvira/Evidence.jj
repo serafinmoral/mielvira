@@ -1,0 +1,212 @@
+options 
+{STATIC = false;
+ LOOKAHEAD=4;
+ FORCE_LA_CHECK=true;
+ }
+
+
+PARSER_BEGIN(EvidenceParse)
+
+//import java.util.Vector;
+//import java.util.Enumeration;
+
+import Node;
+import NodeList;
+import Configuration;
+import java.io.*;
+
+    
+public class EvidenceParse {
+
+ String Name;
+ String Title;
+ String Comment;
+ String Author;
+ String WhoChanged;
+ String WhenChanged;
+ String version;
+ String NetworkName;
+ boolean locked;
+ 
+
+ NodeList Nodes;
+ Configuration C;
+ 
+  
+ 
+
+
+  public static void main(String args[]) throws ParseException
+   ,IOException {
+    FileInputStream f;
+    NodeList Nodes;
+
+    f = new FileInputStream("ejemplo.evi");    
+
+    EvidenceParse parser = new EvidenceParse(f);
+    
+ 
+    
+
+    
+   
+     }
+
+  public void initialize(NodeList N) {
+   
+
+   Name =  new String("");
+   Title =  new String("");
+   Comment =  new String("");
+   Author =  new String("");
+   WhoChanged =  new String("");
+   WhenChanged =  new String("");
+   version =  new String("1.0");
+   NetworkName = new String("");
+   locked = false;
+   Nodes = N;
+    C = new Configuration();
+   
+    }
+
+}
+
+PARSER_END(EvidenceParse)
+
+
+SKIP:
+{<" "|"\t"|"\n"|"\r">}
+
+SKIP:
+{<"//" (~["\n","\r"])* ("\n"|"\r\n")>}
+
+SKIP:
+{<"/*" (~["*"])* "*" (~["/"] (~["*"])* "*")* "/">}
+
+
+TOKEN:
+{
+ <EVIDENCE: "evidence">|
+ <TITLE: "title">|
+ <COMMENT: "comment">|
+ <AUTHOR: "author">|
+ <WHOCHANGED: "whochanged">|
+ <WHENCHANGED: "whenchanged">|
+ <VERSION: "version">|
+ <LOCKED: "locked">|
+ <NETWORKNAME: "networkname">
+ 
+}
+
+
+TOKEN:
+{
+ <BOOLEAN: <TRUE> | <FALSE>>|
+ <TRUE: "true">|
+ <FALSE: "false">
+}
+
+TOKEN:
+{
+  <OPEN_PAREN: "(">
+  |
+  <CLOSE_PAREN: ")">
+  |
+  <COMMA: ",">  
+ 
+}    
+
+
+TOKEN:
+{
+<WORD: <LETTER>(<LETTER>|<DIGIT>)*>
+|
+<#LETTER: ["a"-"z","A"-"Z","_","-"]>
+|
+<#DIGIT: ["0"-"9"]>
+}
+
+
+TOKEN:
+{
+ <DECIMAL_LITERAL: ((<DIGIT>)+)>}
+
+TOKEN:
+{<INTEGER: ("+"|"-")?(<DIGIT>)+>}
+
+TOKEN:
+{<FLOAT: ("+"|"-")?
+(((<DIGIT>)+)|
+((<DIGIT>)+"."(<DIGIT>)*)|
+((<DIGIT>)*"."(<DIGIT>)+)) 
+(("E"|"e")<INTEGER>)?>
+}
+
+TOKEN:
+{<EQUAL: "=">}
+
+TOKEN:
+{<STRINGDECIMAL: "\""<DECIMAL_LITERAL>"\"">}
+
+TOKEN:
+{<STRING: "\""(~["\""])*"\"">}
+
+
+void CompilationUnit() :
+{}
+{
+  EvidenceDeclaration() "}"
+  <EOF>
+}
+
+
+
+void EvidenceDeclaration():
+{Token T;}
+{ <EVIDENCE> (T=<WORD>){
+ Name = T.image;}
+ "{" EvidenceContent ()}
+
+
+
+
+void EvidenceContent():
+{}
+{ (Property()";")* (Assignation()<COMMA>)* }
+
+
+
+
+
+void Property():
+{Token T;}
+
+{ 
+  (<TITLE><EQUAL>(T=<STRING>){Title=T.image.substring(1,T.image.length()-1);})|
+  (<COMMENT><EQUAL>(T=<STRING>){Comment=T.image.substring(1,T.image.length()-1);})|
+   (<AUTHOR><EQUAL> (T=<STRING>) {Author=T.image.substring(1,T.image.length()-1);})|
+  (<WHOCHANGED><EQUAL> (T=<STRING>) {WhoChanged=T.image.substring(1,T.image.length()-1);})|
+  (<WHENCHANGED><EQUAL> (T=<STRING>) {WhenChanged=T.image.substring(1,T.image.length()-1);})|
+  (<LOCKED><EQUAL> (T=<BOOLEAN>) 
+       { if (T.image.equals("true")){locked=true;}
+         else {locked=false;}
+       })|
+ (<VERSION><EQUAL>(T=<FLOAT>){version = T.image;})| 
+  (<NETWORKNAME><EQUAL> (T=<WORD>) {NetworkName = T.image;})|
+   (<WORD><EQUAL>(<BOOLEAN>|<WORD>|<STRING>|<DECIMAL_LITERAL>))}
+
+
+void Assignation():
+{Token T1,T2;
+ Node V;
+  int value;}
+
+{ (T1=<WORD>){ V= Nodes.getNode(T1.image); }
+  <EQUAL> 
+   ( ( (T2=<WORD>) { value = ((FiniteStates) V).getID(T2.image);})|
+      ( (T2=<STRINGDECIMAL>) { value = ((FiniteStates) V).getID(T2.image.substring(1,T2.image.length()-1));})|
+      ( (T2=<DECIMAL_LITERAL>) {value = Integer.valueOf(T2.image).intValue();} ) )
+   { C.insert((FiniteStates) V,value);}
+}
+
+

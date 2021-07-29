@@ -1,0 +1,469 @@
+\section{Implementation}
+
+As it has already been said, {\em Elvira} is implemented in Java
+and its source code is organized in several packages, focusing
+each one in different tasks. The one for the storage of the
+classes for generating explanations is the package {\em
+elvira.gui.explication}, included in the package {\em elvira.gui}
+because every explanation capability is offered through the GUI.
+Therefore, in this section I will focus in the classes of the
+package {\em elvira.gui.explication}, as well as I will present
+very briefly certain classes of the package {\em elvira.gui} which
+are also used to generate explanations. I will finish this section
+describing the package {\em elvira.localize} which contains the
+classes needed for the internationalization of the Elvira GUI.
+
+\subsection{Basics of the GUI: Package \emph{elvira.gui}}
+
+The main class of the GUI is \emph{ElviraFrame} because it
+contains all the items of the menus, all the toolbar buttons and
+the listeners for all these items and buttons. In fact, the
+invocation to the \emph{Elvira} program trough the GUI implies the
+creation of an instance of \emph{ElviraFrame} which controls every
+task during the performance of the program. This class also
+contains the necessary intermediate structures and variables to
+manage all the internal frames of Elvira, among which the most
+important are, basically, the frame for displaying the messages,
+implemented by the class \emph{MessageFrame}, and the different
+frames associated to the different models which can be opened at
+the same time, each one defined by an instance of the class
+\emph{NetworkFrame}, and all of them grouped into an
+\emph{ElviraDesktopPane}. Although several networks or influence
+diagrams can be opened at the same time, only the
+\emph{currentNetworkFrame} is displayed at a time.
+
+A \emph{networkFrame} contains the elements needed for managing
+the different aspects of the windows depending on the working mode
+(edit or inference) or if the model is going to be learnt from a
+data base. The most important methods of NetworkFrame are:
+\begin{itemize}
+  \item public void activeEditorPanel(), which only changes to a panel for
+editing the model and set to false the attribute
+\emph{isCompiled};
+  \item public void activeInferencePanel(), which can compile the
+model for getting the prior probabilities, using the selected
+method by the user, only if the mode \emph{autopropagation} has
+been chosen in the options for doing inference. Moreover, the list
+of cases for managing several evidence cases simultaneously is
+created (see Sec. \ref{sec:caseslist}). If the model has been
+compiled, the list contains as its first element the \emph{prior
+case}; if not, the list remains empty;
+  \item public void activeLearningPanel(), which initializes the elements needed to learn a Bayesian network from a data
+base.
+\end{itemize}
+
+This is because since each of the three different tasks to be done
+in Elvira (edit, inference or learning) is performed under
+different views, we have defined the classes \emph{EditorPanel,
+InferencePanel} and \emph{LearningPanel} representing,
+respectively, the three different panels associated to each task,
+all of them inheriting of class \emph{ElviraPanel}. This class
+contains the constants representing the colors, fonts, size, etc.
+needed for display a graphical model, the elements selected (if
+any) by the user at any moment, stored as an instance of class
+\emph{Selection}, the
+elements for managing the zoom, etc.\\
+
+The class \emph{EditorPanel} represents the work area for managing
+every task related with the graphical edition of a model by
+clicking and dragging the mouse, which implies basically the
+addition or removing of nodes and links and the definition of
+their properties. With such a purpose, some methods are overrided:
+\begin{itemize}
+\item public void mouseDragged(MouseEvent evt), to calculate the
+new position of the nodes and the links displayed in the
+editorPanel in order to repaint it, if needed;
+\item public void mousePressed(MouseEvent evt), for creating a node
+or a link, or for selecting one or several nodes or links. There
+is a class, called \emph{Selection}, to store the items selected
+by the user.
+\item public void mouseReleased(MouseEvent evt), to update the position of
+the selected nodes and links when they are moved, or to create a
+new arc when the mouse is released on a node;
+\end{itemize}
+Another important method of this class is \emph{public void
+paint(Graphics g)}, which displays the model in the panel. Since
+Elvira provides the user the possibility of visualizing the
+graphical representations of the influences transmitted by the
+links, this method needs to make some callings to certain other
+methods of the class \emph{macroexplanation}, which will be
+described in section \ref{sec:impexplanation}.
+
+Moreover, those methods contain callings to the constructors of
+the classes in charged of displaying the windows for helping the
+user to edit the properties of a selected node or link or even the
+whole network, which are, respectively:
+\begin{itemize}
+  \item \emph{EditVariableDialog}, which implements a panel with for tabs, each one for
+  defining the properties, states, parents and relation of a node. A relation can be defined by a canonical model,
+  implemented by class \emph{CanonicalPotential}.
+  \item \emph{LinkPropertiesDialog}, which contains the tail and
+  the head of the link and if it is directed.
+  \item \emph{NetworkPropertiesDialog}, for setting the properties of the model, such as its title, author, comments, etc.
+\end{itemize}
+
+
+The class \emph{InferencePanel} is defined to manage the
+propagation of evidence but also to provide every explanation
+capabilities described in Section \ref{sec:description}. Since
+this topic is more deepen described in the next section, we will
+focus here only in the main aspects related to the introduction of
+evidence and its propagation. In this sense, this class contains
+one important method, \emph{public boolean propagate(Case c)} for
+propagating an evidence case c, and two interesting attributes:
+\begin{itemize}
+  \item int INFERENCEAIM, to know if the user wants to do evidence
+  propagation or abduction;
+  \item int inferenceMethod, to store the method used for such
+  task;
+\end{itemize}
+The values of these attributes are set by the user thanks to the
+window implemented by the class \emph{PropagationDialog}.\\
+
+With respect to the introduction of evidence, it is made by simply
+clicking twice on the node which is observed and then controlled
+in the class by the method \emph{public void
+mousePressed(MouseEvent evt)}. If the node is
+\underline{contracted}, i.e., drawn only by an oval containing its
+name, a new window appears providing a list of the states of the
+node for setting the finding. This window is
+defined by the class \emph{FindingDialog}.\\
+
+Finally, since all aspects related to class \emph{LearningPanel}
+have been described in chapters 9 and 10 we won't repeat it again
+here.
+
+\subsection{Explanation capabilities: Package \emph{elvira.gui.explication}}
+\label{sec:impexplanation}
+
+This package contains most of the classes needed to implement the
+explanation capabilities described in Section
+\ref{sec:description}. We will first describe how we have
+implemented the options for the explanation of the model and then,
+for the reasoning, focusing on the case of discrete variables,
+although naming the corresponding classes for the continuous case.
+
+
+\subsubsection{Static explanation}
+
+For generating \textbf{verbal} explanations of the model (see Sec.
+\ref{sec:static}) we have added in class \emph{Node} two
+attributes: \emph{private double relevance}, to define the
+subjective importance of nodes; and \emph{private String purpose},
+to represent the rol of each node in the network. Moreover, we
+have implemented three classes:\begin{itemize}
+\item The
+verbal explanation of the nodes are generated by way of the class
+\emph{ExplainNodeDialog} which defines a dialog for presenting the
+explanation and the main methods are:
+\begin{itemize} \item public String razonprob(double[] pr), which
+generates a String which contains the verbal explanation of the
+ratio of the probabilities stored in the array \emph{p}. If the
+node is binary, there is only one ratio; in other case, the states
+are ``ordered'' according to their probabilities from the biggest
+to the lowest and then the ratios are presenting following this
+order;
+\item public void setOrPreNode(), which stores in the array \emph{priori} the
+prior probabilities of each state of the node;
+\item public void setOrPostNode(), similar to \emph{setOrPreNode}
+but it stores the probabilities after propagating certain
+evidence.
+\end{itemize}
+
+\item In a similar way, the class \emph{ExplainLinkDialog} defines a
+dialog for presenting the information of a selected link, being
+its most important methods the following:
+\begin{itemize}
+  \item public void setlikelihood(), which stores in an array the
+  likelihoods provided by the link. If the head of the link has
+  only one parent, those are computed taking into account the
+  probability tables; in other cases, the tail is instantiated in
+  order to propagate its values and obtain the likelihoods.
+  \item public String razonprob(double[] pr, FiniteStates
+  current), similar to the same method in
+  \emph{ExplainNodeDialog}.
+\end{itemize}
+
+\item The class \emph{ExplainNetDialog} implements a dialog for
+presenting the verbal explanation of a net, taking into account
+the rol of the nodes. With such a purpose, it defines a String for
+each of the predefined rol (\emph{causesdis, effectsdis}, etc.),
+in order to generate the information associated to each disease.
+As well it includes the following methods:
+\begin{itemize}
+  \item void fillEditor(), which selects the nodes whose purpose
+  is ``Disease'' in order to classify its ascendants and descendants and then generate the corresponding text;
+  \item void classifynodes(Vector asc, boolean up), which takes
+  the vector which contains the ascendants (if up is true) or the
+  descendants (if up is false) of the disease and classify them in
+  several Strings (causesdis, effectsdis, etc.) depending on their purpose;
+  \item String filltext(String nodename), which takes those Strings and generates the final
+  text according to the elements stored in them.
+\end{itemize}
+
+\end{itemize}
+
+For the \textbf{graphical} explanations, we have implemented
+several classes for representing the graphical properties of nodes
+and links:
+\begin{itemize}
+  \item The class \emph{VisualNode} contains as constants the weight and height needed for draw a node (chance, decision or utility),
+  either contracted or expanded. For the case of expanded nodes, there are other classes
+  for defining some properties, taking into account if the nodes are
+  discrete, for which we have implemented the class \emph{ExplanationFStates}, or continuous,
+  in whose case the classes \emph{ExplanationContinuous} and
+  \emph{ExplanationDensity} have been defined in a similar way.
+  The main methods of the class VisualNode are:
+\begin{itemize}
+  \item public static void drawNode(Node node, Graphics2D g, Color nodeColor,
+        Color nodeNameColor, boolean byTitle, boolean dragged), which draws a node with a width according to
+the length of its name and its kind, taking into account the color
+of the node, the color of the string contained into the name, if
+the string displayed into the node will be the title of the node
+and if the node must be drawn in the dragged mode.
+  \item public static void drawExpandedNode (Node node,Graphics g, Color nodeColor,
+                  Color nodeNameColor, Node n,
+                  boolean byTitle, boolean dragged,
+                  FontMetrics fm), similar to the previous one but which draws the node when the inference mode is
+                  enabled and the user wants to see the probability distributions into the net.
+                  It uses a Node n, as a ExplanationFStates or ExplanationContinuous  variable
+ to draw the propagation result.
+\end{itemize}
+
+  \item The class \emph{ExplanationFStates} inherits from \emph{FiniteStates} and
+  contains as attributes the node to be expanded, the list of cases to be graphically
+  displayed in each expanded node, the names of the states of the node, the prior probabilities
+  of each one and the posterior probabilities of each state of the node after propagating some
+  evidence. Each set of probabilities is stored in a matrix. Among its most important methods are:
+\begin{itemize}
+  \item private void setPriori(), which saves the prior probabilities in the \emph{priorprob}
+  array, searching them among the list of potentials (\emph{bnet.getCompiledPotentialList()}) obtained when compiling the model;
+  \item public int getMaxProbState(double[] prob), which returns
+  the position of the matrix which contains the maximum value. If there is more than one maximum, returns
+  -1.
+\end{itemize}
+  \item The class \emph{VisualExplanationFStates} defines the
+  panel in which the expanded node is drawn. Its constructor needs as parameter an instance of ExplanationFStates.
+  Moreover, in order to display all the information associated to each state, it defines the
+  attribute \emph{visualfstates} which is an array of
+  \emph{VisualFStates}. Their main methods are:
+\begin{itemize}
+  \item public void paintExplanation(Graphics2D g, int posx, int posy),
+  which draw the names of the states and the graphical
+  representation of their probabilities by invoking to the
+  following methods:
+  \item public void paintStatesNames(Graphics2D g, int posx, int
+  posy), which paints the names of the states from position (posx,posy), marking the most
+  probable;
+ \item public void paintpriori(Graphics g, int posx, int posy) and public void paintsaved (Graphics2D g, int posx, int posy), which
+ create the bars corresponding to the graphical representation of the (prior and saved) probabilities of each state
+ (defined by the class \emph{VisualFStatesDistribution}) and paint them.
+\end{itemize}
+  \item The class \emph{VisualFStates} is a Vector whose first element corresponds to the graphical representation of the
+  prior probability of that state, and the rest correspond to the different probabilities obtained after propagating the evidence cases created by the
+  user. In the expanded nodes, the probabilities of a node are graphically represented as diagram
+  bars, each one of them defined by an instance of the class
+  \emph{VisualFStatesDistribution}.
+  \item The class \emph{VisualFStatesDistribution} is implemented
+  in order to define the graphical representation of a probability
+  value. It has as constants the \emph{weight} of the bar and the \emph{height} of the area in which it is going to be drawn.
+  Other main attributes are the ones for defining the coordinates
+  \emph{posx} and \emph{posy} of the bar, its \emph{colour} and if it is going
+  to be \emph{visible} or not. Its most important method is \emph{public void paintFSD(Graphics g, int posx, int posy, boolean
+  b)}, which
+  \item The class \emph{VisualLink} contains among its constants the
+  size and width of the arcs. Its most important method is \emph{public static void drawArc(Link link, Graphics2D g, boolean dragging,
+  Selection  s)}, which draws an arc taking into account the size of the head node in order to calculate the position of the arrow.
+  If the link is being dragged it must be drawn as a dashed line. If the link is not selected but the node that
+contains it is, the link must be drawn as if it were selected. The
+method uses the parameter \emph{s} to know if the link must appear
+when it is dragged dashed.
+\end{itemize}
+
+Moreover, we have included several attributes and methods in class
+\emph{InferencePanel}:
+\begin{itemize}
+  \item private double expansionThreshold, which defines the threshold
+  upon which nodes are going to be expanded when changing from
+  edit to inference mode;
+  \item public int expandMode, for defining the policy to be applied when
+  the Expand/Contract button is clicked;
+  \item private boolean purposeMode, which indicates if the
+  purpose of the nodes is going to be used for expanding the
+  nodes. They are selected thanks to the window defined by the class \emph{PurposeDialog}, which after selecting the
+  roles it invokes to the method \emph{setFunctionThreshold} of InferencePanel;
+  \item private boolean showInfluences, to know if the
+  influences of the links are going to be graphically represented;
+  \item public void expandNodes(double threshold, String[]
+  functions), which expand the nodes whose relevance is greater
+  than \emph{threshold} and whose purpose is included in the \emph{functions}
+  matrix.
+  \item public void paint(Graphics g), which draws the network
+  taking into account the values of those attributes. If
+  showInfluences is true, there are callings to some methods
+  of class \emph{macroExplanation}, which is described above.
+\end{itemize}
+
+The class \emph{macroExplanation} has been implemented in order to
+define some static methods for providing some explanation tools
+and which could be used by different classes. In particular, it
+contains, among others, the methods needed for representing the
+graphical influences transmitted by the links, which are the
+following:
+\begin{itemize}
+  \item public static double[][][] greaterdist(Bnet bnet, Node n, Node
+  m), which returns in a three dimensional matrix the cumulative
+  distribution of a node \emph{n}, given one of its parents \emph{m} and the \emph{bnet}
+  in which they are included, i.e. it calculates $P(n\geq n_{i}|m) \mbox{ for all state }n_{i}\mbox{ of
+  }n$. The first dimension of the matrix is defined by the states of
+  $n$. The second one is defined by the total number of
+  distributions to be computed which is equal to the product of
+  the states of the parents of $n$ except $m$. The third dimension is defined
+  by the states of $m$.
+   \item public static int compare(double[][][] dist), which given
+   a matrix with the cumulative distribution as described above,
+   returns 0 if the rows are ordered, being the last one the
+   greatest; returns 1 if the order is the inverse; returns 2 if
+   all of them are equal and 3 if an order can not be established between the
+   rows. These two methods are used to determine the colour of the
+   links.
+  \item private static double maxcompare(double[][][] dist), which
+  is used to draw the thickness of the links and
+  returns $max_{k}[max_{i}(P(n \geq n_{i}|a_{k})-P(n \geq
+  n_{k}|a_{o}))]$
+\end{itemize}
+
+\subsubsection{Dynamic explanation}
+
+For the dynamic explanation, the main data structures are related
+with the management of several evidence cases, which are:
+\begin{itemize}
+  \item The class \emph{Case}, whose main attributes are the probabilities of the
+  nodes, the observed nodes, an attribute to know if it is going to be shown in the expanded nodes,
+  its color and identifier and an attribute to know if the
+  evidence of the case has been propagated.
+  \item The class \emph{CasesList} represents a list of cases,
+  defined mainly by a Vector of Cases. Moreover, it has
+  some additional attributes to know which cases are the first and last to be
+  displayed, the number of elements of the list and, what is very important, an attribute to know which is the current
+  case, since the user can navigate through the list of cases.
+  Each time some evidence is introduced, it is added to the current case, except when the current case is the prior case, in whose
+  case, a new case is created and then it is the current case. The list is created as empty each time the user change from edit to
+  inference mode. If the network has been compiled, it will also
+  contain the \emph{prior case}. Then, in the class InferencePanel, the attribute \emph{private
+CasesList cases} represents the list of cases created at each
+moment.
+  \item The class \emph{CaseEditor} defines a dialog which allows the user to edit and
+  modify the evidence corresponding of a certain case and even to
+  navigate through the list of cases. With such a purpose, it has
+  methods for adding and removing findings to the evidence and to
+  propagate it.
+  \item The class \emph{CaseMonitor} also defines a dialog which
+  provides the user the possibility of modify some properties of a
+  certain Case, such as the colour, identifier, etc. It has
+  methods also for adding a new case, for deleting some of them
+  and even for explaining one selected case, as we will describe below.
+\end{itemize}
+
+The \textbf{explanation} of a Case of Evidence is managed through
+the following classes:
+\begin{itemize}
+  \item \emph{ExplainCase}, it has specially implemented with the aim of
+  providing some dynamic explanations for an specific evidence
+  Case. It contains an inner class, ExplainingAction, which is in
+  charged of generating the explanation by way of its methods \emph{whyButton\_actionPerformed
+  (ActionEvent event)}, which classify the findings of the evidence case depending on the kind and amount of
+  evidence they exert on a selected variable, and \emph{howButton\_actionPerformed (ActionEvent
+  event)}, which shows the chains of reasoning from the evidence
+  to a certain variable;
+  \item \emph{EvidenceAnalysis} is a class for defining the dialog
+  in which the classification of findings is displayed. For this
+  purpose, it contains as attributes four vectors, one for each
+  group of findings depending on the kind of influence (positive, negative, null, unknown) they
+  exert. To know in which group each finding should be include,
+  the method classifyFindings() calculate de cumulative
+  distribution taking into account the whole evidence calling to
+  the following methods of class \emph{macroExplanation}:
+  \begin{itemize}
+  \item public static double[] greaterdist(Case c, Node n), which
+  returns the cumulative distribution of $n$ given the evidence of
+  case $c$;
+  \item public static int compare(double[] d, double[] t) returns 0,1 or 2 depending on whether $d$
+  is less, greater or equal to $t$. If they can not be compared,
+  it returns 3;
+  \item public static double influences(double[] d, double[] t) returns the amount of difference among distributions $d$ and $t$.
+  \end{itemize}
+  Then, to know in which group a finding $f$ must be included,
+  the method classifyFindings obtains in \emph{distnode} the cumulative distribution
+  of the selected node given the whole evidence and then, in \emph{distfinding}, the cumulative
+  distribution of the same node given the evidence except $f$. After comparing those distribution,
+  if the result is 1 or 2, then the calling to influences gives
+  the amount of influence.
+  \item \emph{macroExplanation}, \emph{Node} and \emph{InferencePanel} contains some more
+attributes and methods to display the chains of reasoning from the
+evidence to a certain variable. The first one contains the method
+public static NodeList pathExplanation(CasesList c, Bnet b,
+Evidence e, Node h), which returns the nodes which appear in the
+paths from the evidence of the current case of $c$ in the network
+$b$ to node $h$, obtained by the method proposed by Suermondt
+(1992). During the performing of that method, those nodes are
+marked thanks to the attributes \emph{visited} and \emph{marked}
+of class \emph{Node}. Moreover, the nodes in those paths are
+coloured depending on the kind and amount of influence they
+receive from the evidence. Then, in class \emph{InferencePanel} we
+have added the attribute MACROEXPLANATION to know when a node must
+be coloured.
+\end{itemize}
+
+Finally, the options for explanation can be set by the user thanks
+to the dialog defined by the class \emph{OptionsExplanation}. The
+main attribute of this class is a reference to the InferencePanel
+in which the explanations are provided. This is because, as we
+have already described, it has the information needed to generate
+the explanations. In fact, its attribute \emph{public int
+COMPARINGCASE} is defined to represent the case taken as reference
+to colour the nodes. Also, \emph{private double Theta} defines the
+threshold upon which the influence is relevant for the user and
+\emph{public boolean AUTOEXPLANATION} is used to present graphical
+explanations automatically.
+
+\subsection{Other aspects of the Elvira GUI}
+\subsubsection{Warnings and errors}
+With the aim to help the user during the performance of Elvira, it
+provides different warning and error messages depending on the
+kind of situation. This is managed by the class
+\emph{ShowMessages}, which includes several Strings representing
+the identifiers of the different situations which can provoke an
+execution error or generate a warning. Since all messages are
+displayed in a dialog, all its methods are defined as static in
+order to use the predefined class of Java \emph{JOptionPane},
+which provides a method for showing an option dialog.
+
+\subsubsection{Internationalization: Package
+\emph{elvira.localize}}
+
+Up to date, Elvira can be run in Spanish and (American)
+English\footnote{The language selected by default is Spanish}.
+Nevertheless, it is implemented to be easily extended to another
+languages, thanks to the facilities for internationalization
+provided by Java, what has been taken into account when designing
+Elvira. The idea is not to include in the source code the original
+text to be displayed in the GUI (what would imply to write it in
+any possible language) but to define some ``text constants'' whose
+translation in a specific language is stored in certain text
+files, characterized by its extension: \emph{.properties}. As a
+result, there would be one of these files for each different
+language in which Elvira GUI is going to be provided. Thereby, the
+source code only includes such ``text constants'', defined by the
+programmer, and the name of the file where their corresponding
+translations can be found, depending on the language selected by
+the user. To easily know to which language corresponds each file,
+we decided to add to their names the symbol \_ together with two
+letters representing the language, except to the one for
+(American) English. For example, \emph{Dialogs.properties}
+contains the translations for every text displayed in the dialogs,
+and \emph{Dialogs\_sp.properties}, the associated translations in
+Spanish. Moreover, in order to avoid the generation of files too
+large, we have classified them, depending on its purpose:
+\emph{Dialogs*, Explanation*, Menus*} and \emph{Messages*}, all of
+them included in the package \emph{elvira.localize}.

@@ -1,0 +1,244 @@
+%%%
+% Procedimientos 'teóricos' para el problema.
+%
+%    Algoritmo implementado en Elvira.
+%
+%    Psudocódigo del algoritmo.
+%
+%    Referencias bibliográficas.
+%%%
+
+\section{Qualitative aggregation}
+There are several ways of combining directed independence graphs trying to
+preserve their independences. The union of independence models can be achieve
+under certain conditions by means of {\it graph intersection}. The intersection
+of independence models can be obtained by means of {\it graph union}. And, finally,
+we can combine the initial directed graphical models preserving a {\it maximal} 
+number of independences. These qualitative aggregation methods are outlined in 
+the next sections. An interested reader can find all the details in 
+
+\subsection{Union of Independence Models}
+We want to preserve the independence relationships of the original directed models. Let us 
+assume that both models are defined over the same set of variables. If is possible to find an
+ancestral ordering of the set of variables compatible with both models, then the {\it intersection
+graph} is a minimal I-map of the independence model that is obtained by the union of the initial
+models completed with the independence relationships given by the graphoid axioms. See \cite{CastilloGutHad97}
+for details.
+
+The sitiation changes if the initial models have only several variables in common. In this case, 
+each initial model is modified (extended) to incorporate the proper variables of the other. Also, as in the
+previous case, if is posible to find an ancestral ordering compatible with the variables of both models,
+then the {\it intersection graph} is a minimal I-map of the independence model obtained by the 
+union of the extended models completed with the independence relationships given by the
+graphoid axioms. Note that the resulting directed acyclic graph will probably have several 
+unconnected variables. This problem can partially be avoided if we extend the intersection graph
+adding all the arcs that come from a proper variable to another proper variable or to a common one.
+This is what we call {\it extended intersection}.  
+
+The main drawback of union of independence models rest in the great number of dependences (arcs)
+eliminated, yielding an structure strongly unconnected.
+
+\subsection{Intersection of Independence Models}
+Now, we want to preserve the independence relationships shared by the original directed models. 
+If both models are defined over the same set of variables and exists an
+ancestral ordering of the variables compatible with both models, then the {\it union
+graph} is a minimal I-map of the independence model defined by the intersection of the initial
+models.
+
+In the case that the initial models have only several variables in common, we will have to 
+extend each one of the initial models adding the proper variables of the other. Also, as in the
+previous case, if there exists a compatible ancestral ordering with resptect to both models,
+then the {\it union graph} is a minimal I-map of the independence model obtained by the 
+intersection of the extended models.
+
+The main drawback of intersection of independence models rest in the great number of 
+dependences (arcs) preserved, yielding an structure strongly connected.
+
+\subsection{Maximal Independence Models}
+The idea behind a {\it maximal independence model} is combine models sharing some variables
+but preserving as many original independencies as possible whilst the interactions produced
+between the models are mediated by the common variables. See \cite{SagradoMoral2001} for details.
+
+Suppose that the initial models are two directed acyclic graphical model $G_1 = (V_1, A_1)$ and
+$G_2 = (V_2, A_2)$. Now, from these models we want to build a directed maximal graphical model $G$.
+But, before going into a detailled description of this process we need to define the concept of 
+{\it marginalization of a directed graphical model}.
+Let $G = (V,A)$ be a directed graphical model and $\sigma$ an ancestral ordering of its nodes. The 
+result of marginalizing $G$ to a subset $S \subseteq V$ is a new directed graph $G^{\downarrow S} = (S, A_S)$
+such that for all $v \notin S$ we will add two sets of arcs:
+\begin{itemize}
+\item[i)] $\{(x,y) \vert \forall x,y \in S, x \in Pa(v), y \in Ch(v) \}$
+\item[ii)] $\{(x,y) \vert \forall x,y \in S, x,y \in Ch(v), x \neq y, \sigma(x) < \sigma(y) \} $
+\end{itemize}
+where $Pa(v)$ and $Ch(v)$ represents the sets of direct predecessor and direct successors of $v$,
+respectively.
+It is possible to find a directed maximal acyclic graph combining $G_1$ and $G_2$, if there
+exists an ancestral ordering $\sigma$ common to both graphs, following the next process:
+\begin{enumerate}
+\item Let $V = V_1 \cap V_2$ be the set of shared variables between $G_1$ and $G_2$.
+\item Compute $G_2^{\downarrow V}$. Let $G_1^T$ be the graph obtained deleting from $G_1$ all arcs
+contained in $G_2^{\downarrow V}$.
+\item $G' = G_1^T \cup G_2$.
+\item Compute $G_1^{\downarrow V}$. Let $G_2^T$ be the graph obtained deleting from $G_2$ all arcs
+contained in $G_1^{\downarrow V}$.
+\item $G'' = G_1 \cup G_2^T$.
+\item Return the graph $G = G' \cap G''$ as the graphical maximal model.
+\end{enumerate}
+
+\section{Quantitative aggregation}
+In many situations, a designer of a probabilistic system has to consult
+more than one expert. If each one of the $n$ consulted experts holds a subjective belief 
+expressed under the form of a joint probability distribution $P_i$, then a consensus joint
+probability distribution $P$ is any function $f$ of the $P_i$,
+$$
+P \equiv f(P_1, \cdots, P_n),
+$$
+where $P$ is itself a legal joint probability distribution and $f$ is the {\it aggregation} or
+{\it combination function}. 
+
+Aggregation functions also deserve a more detailed attention, because they define the aggregation 
+scheme used to combine experts' opinions. The combination functions implemented in Elvira are:
+\begin{itemize}
+\item{Linear opinion pool} The consensus probability is a weighted sum of all the probabilities
+that various experts have assigned to it
+$$
+P(x_j) = k * \sum_{i=1}^n {w_{ij}} \cdot (P_i(x_j)).
+$$
+where $k$ is a normalization constant. According to this scheme, weights assigned to each 
+hypothesis by experts must be normalized and must add up to one ($\forall j, \sum_{i=1}^m w_{ij}=1$),
+and may not be negative ($\forall i,j, w_{ij} \ge 0 $).
+
+\item{Logarithmic opinion pool} Here, the consensus probability assigned to $x_j$ is a 
+weighted product of all the probabilities that the different experts have assigned to it
+$$
+P(x_j) = k * \prod_{i=1}^n (P_i(x_j))^{w_{ij}}.
+$$
+where $k$ is a normalization factor and the {\it experts' weights}, $w_{ij}$, as in the 
+previous aggregation function are nonnegative numbers that must be normalized and must
+add up to one. 
+\end{itemize}
+
+Observe the influence that the different scales each subject uses to express his/her personal 
+degrees of belief have in the consensus. Whereas linear opinion pool depends on the assumption
+that all the opinios are expressed using the same probability scale, logarithmic opinion pool
+is invariant under rescaling of individual degrees of belief.
+
+Another problem to asses the numerical parameters of a Bayesian network arises when we have to
+build a conditional probability distribution for a node having more than two or three parents.
+Elvira permits the use of the Noisy Or model to represent a probabilistic relationship among a
+finite number of variables simplifying the estimation of probability values. The causal interpretation
+of this model is that the effect $E$ is the result of a combination of intermediate events $Z_i$
+which are caused by $C_i$ the parents (causes) of $E$. In this case, we have a contitional 
+distribution $P(z_i \vert c_i)$ representing the relationship between $C_i$ and $Z_i$, whilst
+the interaction between causes $C_i$ and efect $E$ is given by the logical OR. Thus, the conditional
+probability $P(e \vert {\bf c})$ is obtained as
+$$
+P(e \vert {\bf c}) = \sum_{{\bf z} \vert OR({\bf z})=e} \prod_i P(z_i \vert c_i).
+$$
+To cover situations in which is unfeasible to identify all the variables $C_i$ that have a direct
+influence over $E$, usually is included a "leak" probability term $P(e_L) = P(e \vert \neg c_1, \cdots, \neg c_n)$.
+This term represents the situation in which the effect $E$ may occur even when all of its causes
+are inactive and it is incorpored in the noisy Or model producing the leaky OR model that is defined
+as
+$$
+P(e \vert {\bf c}) = \sum_{{\bf z} \vert OR({\bf z})=e} \prod_i P(z_i \vert c_i) \cdot \sum_{e_L \vert OR({\bf z}, e_L)}P(e_L).
+$$
+The main advantage of the Or models is the reduction, from an exponential
+to a linear order of magnitude, of the number of parameters necessary to
+specify the conditional probability distribution $P(e \vert {\bf c})$. Also,
+the parameters  lend themselves to more intuitive interpretations, simplifying the 
+construction of a probabilistic network model.
+
+{\it Elvira} includes several facilities for performing the previously described aggragation
+processes. These facilities can easily been accesed either by the graphical user interface or
+by on-line command instantiation of the specific {\it Elvira} classes. The next sections explains
+how to use the fusion tools inside {\it Elvira} software. 
+
+%%%
+% Estructura de clases Principales para resolver el problema. -
+%
+% Uso del algoritmo.
+%
+%    Uso en línea de comandos como API
+%
+%    Uso desde el interface gráfico
+%%%
+
+%\section{Algorithms for Fusion}
+
+\section{Fusion from the Elvira GUI}
+This section is devoted to explain the capabilities related with the combination of Bayesian
+networks available from the {\it Elvira Graphical User Interface} (Elvira GUI). First of all,
+the user have to be using at least two Bayesian networks. This could be done editing two
+completely new networks or opening {\tt elv} files containing their definition. In that moment, 
+will be activated the option {\it Task} in the menu bar. Select {\it Task -- Fusion} to 
+display the {\it Fusion options} pop-up wimdow. Here, the user can select from the
+{\it list of active networks} those to be use in the fusion process. Also, he/she has to select,
+respectively, the quantitative and qualitative types to apply from the corresponding fold-down 
+field. Finally, click on the button {\it Fusion} in order to {\it Elvira} computes the 
+combination network. The result is displayed in a new window. The user can quit fusion
+process at any time by clicking on the button {\it Cancel}, but she/he will loose all the
+given options.
+
+\section{Fusion from the Command Line}
+The {\tt Fusion} class of {\it Elvira} encloses the principal methods to perform the aggregation 
+methods described. These are
+\begin{itemize}
+\item {\tt public void linearPool (int qualitativeType, Bnet Bn1, Bnet Bn2)} Computes the
+linear pool of two Bayesian networks. The value assigned to {\tt qualitativeType} indicates 
+the type of qualitative fusion that is going to be applied in order to obtain the structure of 
+the fusion network. Thus, a value of $0$ is used for graph union, $1$ for graph intersection,
+$2$ for extended graph extended and $3$ for the maximal graph. {\tt Bn1} and {\tt Bn2}
+specify the Bayesian networks objects that are going to be combined.
+\item {\tt public void logarithmicPool (int qualitativeType, Bnet Bn1, Bnet Bn2)} Computes the
+logarithmic pool of two Bayesian networks objects {\tt Bn1} and {\tt Bn2}. As in the previous 
+method {\tt qualitativeType} indicates the type of qualitative fusion can take the same mentioned 
+values.
+\item {\tt public void noisyORPool (int qualitativeType, Bnet Bn1, Bnet Bn2, boolean loose)}
+This method must be used if the parameters of all the variables in the combined network are going to 
+be estimated following a noisy Or model. The parameter {\tt loose} indicates the use of a 
+leaky probability term. Also, as in the previous models the combined structure is computed
+applying the corresponding {\tt qualitativeType}. 
+\item {\tt public void noisyORPool (int qualitativeType, Bnet Bn1, Bnet Bn2, NodeList ORnodes, boolean loose)}
+In the general case, once the qualitative combination determines the common structure, we have only 
+to estimate the conditional probabilities associated to a few variables, pointed out as {\tt ORnodes}, 
+by means of a noisy Or model. The rest of the parameters are computed applying a linear pool.
+\item {\tt public Fusion(int qualitativeType, int quantitativeType, Bnet bN1, Bnet bN2)}
+This constructor creates a new {\tt Fusion} object representing the Bayesian network 
+computed from the fusion of another two networks. The user has to indicate the 
+{\tt qualitativeType} used to build the common structure and the {\tt quantitativeType} of
+aggregation used to combine the parameters. The values allowed for the {\tt quantitativeType}
+are $0$ for linear pool, $1$ for logarithmic pool, $2$ noisy Or and $3$ noisy Or with loose
+probability.
+\end{itemize}
+
+The {\tt Fusion} class also includes some methods that can be classified as utilities, such as
+\begin{itemize}
+\item {\tt public Vector compare (Bnet Bn)} Compares the actual network with another Bayesian 
+network. The comparison is done counting coincident links, inverted links, added links and 
+computing the Kullback-Leibler divergence between the joint distributions. The unique requisite 
+between the networks being compared is that they have the same set of variables.
+\item {\tt public Vector split (int pcNodes, int pcShared)} Splits a Bayesian network. 
+Creates a {\tt Vector} object containing two new Bayesian networks each one with a given
+percentage ({\tt pcNodes}) of the original nodes and sharing a percentage ({\tt pcShared}) of 
+common nodes. The sum of the percentage of nodes and half of the percentage of shared nodes 
+can not be greater than $100$.
+\item {\tt public Vector randomSplit (int pcNodes, int pcShared)} Splits randomly a Bayesian network. 
+Creates a vector containing two new marginalized Bayesian networks with a percentage ({\tt pcNodes})
+of the original nodes and sharing a percentage ({\tt pcShared}) of nodes.
+\end{itemize}
+
+{\it Elvira} also includes the class {\tt Fuse} in order to perform easily fusion experiments from the 
+command line. The syntax to invoke this class is
+\begin{quote}
+{\tt java Fuse qualitative\_type quantitative\_type input\_file\_1 input\_file\_2 [output\_file]}
+\end{quote}
+where {\tt qualitative\_type} and {\tt quantitative\_type} have to be replaced with a number in the 
+range between $0$ and $3$ indicating, respectively, the qualitative and quantitative aggregation 
+methods that are being used. The values allowed are $0$ for graph union and linear pool, $1$ for
+graph intersection and logarithmic pool, $2$ for extended graph intersection and noisy Or estimation, 
+and $3$ for the maximal graph and noisy Or with loose probability estimation. It is mandatory
+to indicate the names of the two input files containing the networks that are going to be combined,
+by the way these are {\tt elv} files. Optionally, the user can type the name where the resulting
+Bayesian network has to be stored. By default, the program stores the combination result in a 
+file called {\tt fuse.elv}.

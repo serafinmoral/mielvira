@@ -1,0 +1,20 @@
+node Sickf
+values= table ( 
+                [sick] = 0.99                [sick] = 0.01,
+                );
+node Dryf
+values= table ( 
+                [dry] = 0.6                [dry] = 0.4,
+                );
+node Losesf
+values= table ( 
+                [yes] = 0.9258799999999999                [yes] = 0.07412,
+                );
+node Treat
+values= table ( 
+                [treat] = 0.0                [treat] = 1.0,
+                );
+node Harvest
+values= table ( 
+                ["present"] = 0.32680000000000003                ["present"] = 0.6732,
+                );

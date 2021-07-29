@@ -1,0 +1,61 @@
+\section{Variable Elimination algorithm}
+
+
+This method \cite{Zha96} is designed to compute the posterior
+distribution over a goal variable $Z\in \bX$, where $\bX$ is the
+set of all the variables in the Bayesian network. It is based on
+sequentially deleting the variables in $\bY=\bX\setminus \{ Z\}$
+from the probabilistic potentials containing them. The deletion of
+a variable from a set of potentials is carried out by combining
+the potentials containing it and marginalising it out from the
+result of the combination. This process is detailed in the next
+algorithm, which deletes a variable $Y$ from a set of potentials
+$T$:
+
+\bigskip
+\noindent \textsf{\textbf{Delete($T$,$Y$)}}
+
+\begin{enumerate}
+  \item Let $T_Y=\{ f\in T | Y\in\mathrm{dom}(f) \}$.
+  \item $q:=\prod_{f\in T_Y}f$.
+  \item $r:=\sum_{y\in\Omega_Y}q$.
+  \item $T:=(T\setminus T_Y)\cup\{ r\}$.
+  \item Return $T$.
+\end{enumerate}
+
+Using the above procedure, an exact propagation algorithm can be
+specified, starting with a set $T$ containing the conditional
+distribution in the Bayesian network and the potentials associated
+to the observations. These {\em evidence-potentials} are defined
+as follows.
+
+\begin{definition}\label{def:evi}
+Let $X\in \bE$ be a variable which has been observed to take the
+value $x_0$. The {\em evidence-potential} corresponding to this
+observation is
+\begin{equation}
+\delta_X(x;x_0)= \left\{ \begin{array}{ll} 1 & \mathrm{if} ~~~
+x=x_0 \enspace ,\\
+0 & \mathrm{otherwise} \enspace .
+\end{array} \right. \label{eq:evi}
+\end{equation}
+\end{definition}
+
+The following algorithm computes the posterior distribution for a
+variable $Z\in\bX$ given the observations in $\bE$.
+
+\bigskip\noindent
+\textsf{\textbf{Variable\_Elimination($\bX$,$Z$,$\bE$)}}
+
+\begin{enumerate}
+  \item Let $p_i$, $i=1,\ldots,n$, be the conditional distribution
+  for each variable $X_i\in \bX$.
+  \item $T:=\{ p_i, ~ i=1,\ldots,n\} \cup \{ \delta_X | X\in\bE\}$.
+  \item For each $Y\in\bX\setminus\{ Z\}$,
+\begin{enumerate}
+  \item[] $T:=$\textsf{\textbf{Delete($T$,$Y$)}}.
+\end{enumerate}
+  \item $p:=\prod_{f\in T} f$.
+  \item Normalise $p$.
+  \item Return $p$.
+\end{enumerate}

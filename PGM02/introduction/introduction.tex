@@ -1,0 +1,47 @@
+\section{Introduction: The Elvira Projects}
+
+This paper presents the Elvira environment, a platform for constructing and using probabilistic graphical models,
+which is being built with the support of the Spanish  
+{\em Ministerio de Ciencia y Tecnolog\'{\i}a} through two
+research projects: Elvira (TIC97-1135-C04, 1997-2000) and Elvira~II
+(TIC2001-2973-C05, 2001-2004). The original motivation for the
+first project was the existence of several groups in Spain working
+in different aspects of probabilistic graphical models  (learning,
+propagation, influence diagrams, etc). These groups had important
+difficulties in implementing algorithms and maintaining the
+existing software. Most of the programming was done in a paper by
+paper basis: specific software was created for testing algorithms
+proposed in a given moment. This produced a lot of duplications
+and, for each group, the available tools were really reduced: some
+laboratories could have a great variety of implementations of
+learning algorithms, but no  software for propagation. So the main
+aim of first Elvira was to integrate in an environment all the
+algorithms and procedures developed by the different research
+groups. This environment should also have an attractive and easy to
+use graphical interface to build and use the models. At first, we
+investigated existing tools for Bayesian networks, but we decided
+to start from scratch as the primary motivation was to create a
+research tool and for that a great deal of flexibility was
+necessary that was not provided by any of the examined
+environments. Some were commercial oriented with a non open code or
+other were very restrictive in their objectives and the work
+to adapt them was estimated to be too high. So, we started by
+defining a common format to specify and represent Bayesian networks 
+(the Elvira format described in section 2) . We chosed a
+programming language (Java) and  created a graphical interface 
+(see section 3)  in which to integrate the different propagation,
+learning, and decision algorithms. Elvira is not a tool for a 
+single purpose. So we have not considered only one procedure for
+each task. The different possibilities for propagation, learning, and decision algorithms  are described in 
+sections 4, 5, and 6 of this paper.
+
+Elvira is not a finished project. In fact, 
+Elvira II has just started some months ago. In this project, we
+have moved a step forward: apart from improving the
+Elvira environment (see section 6 for details), the main objective is now to use this tool to build real applications in several fields: medicine, 
+e-commerce, genomics, and agriculture.
+
+Elvira is an open project. It is not restricted to the people working in the laboratories directly involved in the project.
+In the web page at address \url{http://leo.ugr.es/~elvira}, the Elvira environment, including the source code, can be freely downloaded.
+People is also invited to contribute with new algorithms and ideas.
+

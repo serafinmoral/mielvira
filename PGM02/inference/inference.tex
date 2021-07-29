@@ -1,0 +1,95 @@
+\section{Inference and Abduction}
+
+There are two kinds of inference over Bayesian networks that can
+be made using Elvira: {\em abduction} and {\em probability
+propagation (belief updating)}. The first is related to the
+computation of a set of configurations that best support some given
+evidence, whilst the latter means to obtain the posterior
+distribution of some variables of interest given some evidence.
+Both tasks can be carried out from the GUI and from the command
+line (this option is specially indicated for situations in which
+the network in process is so large that displaying it becomes
+useless).
+
+\paragraph{Inference from the GUI:}
+Before entering the inference mode, a network must have been
+previously loaded into the system (or constructed using the edition
+facilities of the Elvira GUI). The system allows to enter multiple
+findings and study them simultaneously. Several algorithms for
+performing inference are available.
+
+For probability propagation, we can choose amongst a wide range of
+methods. The exact propagation algorithms implemented in Elvira
+are: Hugin \cite{Jen90}, Shenoy-Shafer's method \cite{She97}, Lazy
+propagation \cite{Mad99} and Variable Elimination \cite{Zha96}.
+Regarding approximate methods, we find the Penniless Propagation
+\cite{Can00}, Lazy-Penniless \cite{Can02}, Importance Sampling and
+Systematic Sampling \cite{Her98} and approximate versions of the
+Hugin and Variable Elimination algorithms, based on the use of
+probability trees \cite{Cano97} to represent probabilistic
+potentials. In Elvira, Shenoy-Shafer's algorithm is a particular
+case of Penniless propagation, in which the error level is set to
+zero and the number of stages limited to two, and Lazy propagation
+is equivalent to Lazy-Penniless with error threshold equal to zero
+as well. Regarding Importance Sampling, three versions are
+available, based on the use of probability tables \cite{Her98},
+probability trees \cite{Sal2000} and antithetic variates
+\cite{Sal01}.
+
+With respect to abductive reasoning, two main problems can be
+tackled using Elvira: In the case of total abduction, we look for
+the configuration(s) of maximum probability containing all the
+unobserved variables; In the case of partial abduction, a subset
+of the unobserved variables is previously fixed (by using the
+inference options menu), and so we look for the configuration(s)
+of maximum probability containing only the variables in that set
+({\em explanation set}). By using abductive inference in Elvira
+the user can look just for the best explanation, but also for the
+$K$ best explanations (this parameter is set in the inference
+options menu as well). Nilsson's algorithm \cite{Nilsson-mpe} has
+been implemented in Elvira to solve total abduction. For partial
+abduction we first obtain a valid join tree in which only the
+variables of the explanation set are included, and then Nilsson's
+algorithm is applied. To obtain a valid join tree two approaches
+are available \cite{cgm-libroIpmu00}: (1) the join tree is
+built by means of a constrained deletion sequence, and (2) the
+join tree is built by structurally modifying a general
+(unconstrained) join tree. In both cases (total and partial)
+inference can be carried out in an exact way by using probability
+tables or probability trees. Furthermore, a non-exact algorithm is
+implemented on the basis of approximate probability trees
+\cite{cgm-caepia01}.
+
+
+Evidence can be entered by clicking on the case of the variables
+we want to instantiate, or edited by means of a case editor
+accessible from the toolbar. Besides, evidences can be loaded from
+a file. The GUI incorporates several features for the inference
+mode, which allow us, for instance,
+to display the result of different propagations (with
+different evidences or even with different propagation
+algorithms), etc.
+
+\paragraph{Inference from the command line:}
+Elvira offers the possibility of running the inference algorithms
+directly from the command line. In fact, the classes corresponding
+to inference algorithms (abduction and propagation) work as
+independent programs if requested by the user, which is a quite
+useful feature for performing series of experiments with different
+networks and parameters. The general way to use the algorithms is
+to execute them as any other java program, including, besides the
+name of the class corresponding to the algorithm selected, the
+appropriate arguments. In this case, the input and the output is
+through files.
+
+An algorithm that is only available from the command line is
+Markov-Chain Monte Carlo propagation for continuous variables whose
+distribution is a mixture of truncated exponentials \cite{Mor01}. This
+model allows to deal simultaneously with discrete and continuous
+variables in the same network.
+
+In the case of abductive reasoning all the algorithms can be used
+from the command line as well. In fact, for partial abduction, the
+method and the used heuristics \cite{cgm-libroIpmu00} to obtain the
+valid junction tree can be selected, while when using
+the graphical interface this option is fixed.

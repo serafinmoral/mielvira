@@ -1,0 +1,47 @@
+.
+|-- Elvira-Presentation.tex
+|-- Leeme.txt
+|-- Makefile
+|-- acl.bst
+|-- bib
+|   `-- Elvira-Presentation.bib
+|-- comun
+|   |-- pgm02
+|   |   |-- Directorios.txt
+|   |   `-- pgm02_style.tgz
+|   `-- pgm02sub.sty
+|-- format
+|   |-- fig
+|   `-- format.tex
+|-- future
+|   |-- fig
+|   `-- future.tex
+|-- gui
+|   |-- fig
+|   |   |-- captura.png
+|   |   `-- captura.ps
+|   `-- gui.tex
+|-- id
+|   |-- fig
+|   `-- id.tex
+|-- inference
+|   |-- fig
+|   `-- inference.tex
+|-- introduction
+|   |-- fig
+|   `-- introduction.tex
+|-- learning
+|   |-- fig
+|   `-- learning.tex
+|-- out
+|   |-- Elvira-Presentation.bbl
+|   |-- Elvira-Presentation.dvi
+|   |-- Elvira-Presentation.pdf
+|   `-- Elvira-Presentation.ps
+|-- warnings
+|   |-- Elvira-Presentation.aux
+|   |-- Elvira-Presentation.blg
+|   `-- Elvira-Presentation.log
+
+
+19 directories, 24 files

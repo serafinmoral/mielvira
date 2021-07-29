@@ -1,0 +1,29 @@
+\section{Introduction}
+
+Consider a Bayesian network defined for a set of variables $\bX=\{
+X_1,\ldots,X_n\}$, where each variable $X_i$ takes values on a
+finite set $\Omega_{X_i}$. If $I$ is a set of indices, we will
+write $\bX_I$ for the set $\{ X_i|i\in I\}$, and $\Omega_{\bX_I}$
+will denote the Cartesian product $\times_{i\in I}\Omega_{X_i}$.
+Given $\bx\in \Omega_{\bX_I}$ and $J\subseteq I$,  $\bx_J$ is the
+element of $\Omega_{\bX_J}$ obtained from $\bx$ by dropping the
+coordinates not in $J$.
+
+\begin{definition} \label{def:propagation} Let $\bE\subset \bX$ be a set
+of observed variables and $\be\in\Omega_{\bE}$ the instantiated
+value. An algorithm which computes $p(x|\be)$ for each
+$x\in\Omega_{X}$, $X\in \bX\setminus \bE$ is called an {\em exact
+propagation algorithm}.
+\end{definition}
+
+Several exact propagation algorithms that compute the posterior
+distributions by local computations have been proposed in the last
+decade \cite{Jen90,Lau88,Mad99,She97,She90}. Local computation
+consists of calculating the marginals without actually computing
+the joint distribution, and is described in terms of a message
+passing scheme over a structure called a {\em join tree}.
+
+Elvira includes different algorithms for performing exact
+inference, as the variable elimination method and the Hugin
+scheme. The Shenoy-Shafer algorithm is also available as a
+particular case of Penniless propagation.

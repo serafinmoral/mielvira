@@ -1,0 +1,296 @@
+#
+# An unexpected error has been detected by HotSpot Virtual Machine:
+#
+#  SIGSEGV (0xb) at pc=0x0505cc95, pid=30281, tid=62802864
+#
+# Java VM: Java HotSpot(TM) Client VM (1.5.0_03-b07 mixed mode, sharing)
+# Problematic frame:
+# j  elvira.Graph.<init>(Lelvira/NodeList;Lelvira/LinkList;I)V+89
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x083821b0):  JavaThread "AWT-EventQueue-0" [_thread_in_Java, id=30295]
+
+siginfo:si_signo=11, si_errno=0, si_code=1, si_addr=0x30112dfc
+
+Registers:
+EAX=0x00740072, EBX=0x30112dcc, ECX=0xcbd55c88, EDX=0x70800001
+ESP=0x03be3a9c, EBP=0x03be3ac4, ESI=0xcf45ac31, EDI=0x03be3ae8
+EIP=0x0505cc95, CR2=0x30112dfc, EFLAGS=0x00210246
+
+Top of Stack: (sp=0x03be3a9c)
+0x03be3a9c:   050519a4 cbd55c88 cbd611b0 03be3aa8
+0x03be3aac:   cf45ac31 03be3ae8 cf57d2e8 00000000
+0x03be3abc:   cf45acf8 03be3adc 03be3b0c 05051a7b
+0x03be3acc:   cbd578b8 cbd57850 cb463d40 cbdcb5d0
+0x03be3adc:   00000000 cbdcd778 cbd611b0 cb463cc8
+0x03be3aec:   cb463cc8 03be3af0 cf633e9f 03be3b3c
+0x03be3afc:   cf661408 00000000 cf633f88 03be3b34
+0x03be3b0c:   03be3b5c 05051a7b 00000000 cb463cb8 
+
+Instructions: (pc=0x0505cc95)
+0x0505cc85:   00 3b 01 ff 63 30 8b 41 04 8b 9c 98 08 01 00 00
+0x0505cc95:   8b 53 30 8b c3 ff e2 00 00 00 00 f0 00 00 00 99 
+
+Stack: [0x03b64000,0x03be5000),  sp=0x03be3a9c,  free space=510k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+j  elvira.Graph.<init>(Lelvira/NodeList;Lelvira/LinkList;I)V+89
+j  elvira.gui.ElviraPanel.arcHit(II)V+55
+j  elvira.gui.EditorPanel.mousePressed(Ljava/awt/event/MouseEvent;)V+608
+j  elvira.gui.EditorPanel.processMouseEvent(Ljava/awt/event/MouseEvent;)V+1107
+J  java.awt.Component.processEvent(Ljava/awt/AWTEvent;)V
+J  java.awt.Container.processEvent(Ljava/awt/AWTEvent;)V
+J  java.awt.Component.dispatchEventImpl(Ljava/awt/AWTEvent;)V
+J  java.awt.Container.dispatchEventImpl(Ljava/awt/AWTEvent;)V
+J  java.awt.LightweightDispatcher.retargetMouseEvent(Ljava/awt/Component;ILjava/awt/event/MouseEvent;)V
+J  java.awt.LightweightDispatcher.processMouseEvent(Ljava/awt/event/MouseEvent;)Z
+J  java.awt.LightweightDispatcher.dispatchEvent(Ljava/awt/AWTEvent;)Z
+J  java.awt.Container.dispatchEventImpl(Ljava/awt/AWTEvent;)V
+J  java.awt.Window.dispatchEventImpl(Ljava/awt/AWTEvent;)V
+J  java.awt.EventQueue.dispatchEvent(Ljava/awt/AWTEvent;)V
+J  java.awt.EventDispatchThread.pumpOneEventForHierarchy(ILjava/awt/Component;)Z
+J  java.awt.EventDispatchThread.pumpEventsForHierarchy(ILjava/awt/Conditional;Ljava/awt/Component;)V
+v  ~OSRAdapter
+j  java.awt.EventDispatchThread.pumpEvents(ILjava/awt/Conditional;)V+4
+j  java.awt.EventDispatchThread.pumpEvents(Ljava/awt/Conditional;)V+3
+j  java.awt.EventDispatchThread.run()V+9
+v  ~StubRoutines::call_stub
+V  [libjvm.so+0x16a7dc]
+V  [libjvm.so+0x2590d8]
+V  [libjvm.so+0x16a035]
+V  [libjvm.so+0x16a0ce]
+V  [libjvm.so+0x1ceec5]
+V  [libjvm.so+0x2b1f03]
+V  [libjvm.so+0x259be8]
+C  [libpthread.so.0+0x5341]
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x0805b6f8 JavaThread "DestroyJavaVM" [_thread_blocked, id=30281]
+  0x08478398 JavaThread "TimerQueue" daemon [_thread_blocked, id=30303]
+=>0x083821b0 JavaThread "AWT-EventQueue-0" [_thread_in_Java, id=30295]
+  0x08306c90 JavaThread "AWT-Shutdown" [_thread_blocked, id=30294]
+  0x08301cd0 JavaThread "AWT-XAWT" daemon [_thread_in_native, id=30293]
+  0x082c5170 JavaThread "Java2D Disposer" daemon [_thread_blocked, id=30292]
+  0x080a0350 JavaThread "Low Memory Detector" daemon [_thread_blocked, id=30290]
+  0x0809ee00 JavaThread "CompilerThread0" daemon [_thread_blocked, id=30289]
+  0x0809def0 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=30288]
+  0x080992a8 JavaThread "Finalizer" daemon [_thread_blocked, id=30287]
+  0x08098558 JavaThread "Reference Handler" daemon [_thread_blocked, id=30286]
+
+Other Threads:
+  0x08095aa0 VMThread [id=30285]
+  0x080a17e0 WatcherThread [id=30291]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap
+ def new generation   total 576K, used 431K [0xcb400000, 0xcb4a0000, 0xcb8e0000)
+  eden space 512K,  81% used [0xcb400000, 0xcb468240, 0xcb480000)
+  from space 64K,  22% used [0xcb480000, 0xcb4839c8, 0xcb490000)
+  to   space 64K,   0% used [0xcb490000, 0xcb490000, 0xcb4a0000)
+ tenured generation   total 5408K, used 5180K [0xcb8e0000, 0xcbe28000, 0xcf400000)
+   the space 5408K,  95% used [0xcb8e0000, 0xcbdef3b0, 0xcbdef400, 0xcbe28000)
+ compacting perm gen  total 8192K, used 3399K [0xcf400000, 0xcfc00000, 0xd3400000)
+   the space 8192K,  41% used [0xcf400000, 0xcf751fd8, 0xcf752000, 0xcfc00000)
+    ro space 8192K,  68% used [0xd3400000, 0xd3979358, 0xd3979400, 0xd3c00000)
+    rw space 12288K,  47% used [0xd3c00000, 0xd41b6a60, 0xd41b6c00, 0xd4800000)
+
+Dynamic libraries:
+00111000-00113000 rwxp 00111000 00:00 0 
+00113000-00119000 r-xp 00000000 08:02 671768     /opt/jdk1.5.0_03/jre/lib/i386/native_threads/libhpi.so
+00119000-0011a000 rwxp 00006000 08:02 671768     /opt/jdk1.5.0_03/jre/lib/i386/native_threads/libhpi.so
+0011a000-0013b000 r-xp 00000000 08:02 671781     /opt/jdk1.5.0_03/jre/lib/i386/libjava.so
+0013b000-0013d000 rwxp 00020000 08:02 671781     /opt/jdk1.5.0_03/jre/lib/i386/libjava.so
+0013d000-001a6000 rwxp 0013d000 00:00 0 
+001a6000-001ba000 r-xs 00000000 08:02 671824     /opt/jdk1.5.0_03/jre/lib/jce.jar
+001ba000-001c6000 rwxp 001ba000 00:00 0 
+001c6000-001cc000 r-xs 00000000 08:02 3276994    /usr/lib/gconv/gconv-modules.cache
+001cc000-001cd000 r-xp 00000000 08:02 3312061    /usr/X11R6/lib/X11/locale/lib/common/xlcUTF8Load.so.2
+001cd000-001ce000 rwxp 00000000 08:02 3312061    /usr/X11R6/lib/X11/locale/lib/common/xlcUTF8Load.so.2
+001ce000-001d5000 r-xp 00000000 08:02 3242903    /usr/X11R6/lib/libXrender.so.1.2.2
+001d5000-001d6000 rwxp 00006000 08:02 3242903    /usr/X11R6/lib/libXrender.so.1.2.2
+001d6000-001de000 rwxs 00000000 08:02 1671330    /tmp/hsperfdata_smc/30281
+001de000-001df000 rwxp 001de000 00:00 0 
+001df000-001e0000 rwxp 001df000 00:00 0 
+001e0000-001e4000 rwxp 001e0000 00:00 0 
+001e4000-001fe000 rwxp 001e4000 00:00 0 
+001fe000-00202000 rwxp 001fe000 00:00 0 
+00202000-0021e000 rwxp 00202000 00:00 0 
+0021e000-0022c000 rwxp 0021e000 00:00 0 
+0022c000-00247000 rwxp 0022c000 00:00 0 
+00247000-00254000 r-xp 00000000 08:02 3242902    /usr/X11R6/lib/libXext.so.6.4
+00254000-00255000 rwxp 0000c000 08:02 3242902    /usr/X11R6/lib/libXext.so.6.4
+00255000-00256000 r-xp 00255000 00:00 0 
+00256000-0025b000 rwxp 00256000 00:00 0 
+0025b000-00277000 rwxp 0025b000 00:00 0 
+00277000-0029d000 r-xs 00000000 08:02 671820     /opt/jdk1.5.0_03/jre/lib/ext/sunjce_provider.jar
+0029d000-002a3000 r-xp 00000000 08:02 671787     /opt/jdk1.5.0_03/jre/lib/i386/libnio.so
+002a3000-002a4000 rwxp 00005000 08:02 671787     /opt/jdk1.5.0_03/jre/lib/i386/libnio.so
+002a4000-002a8000 rwxs 00000000 00:06 78446604   /SYSV00000000 (deleted)
+002a8000-002ac000 rwxs 00000000 00:06 78250002   /SYSV00000000 (deleted)
+002ad000-002b5000 r-xp 00000000 08:02 3242905    /usr/X11R6/lib/libXcursor.so.1.0.2
+002b5000-002b6000 rwxp 00007000 08:02 3242905    /usr/X11R6/lib/libXcursor.so.1.0.2
+002b7000-002c0000 r-xp 00000000 08:02 2211889    /lib/libnss_files-2.3.5.so
+002c0000-002c1000 r-xp 00008000 08:02 2211889    /lib/libnss_files-2.3.5.so
+002c1000-002c2000 rwxp 00009000 08:02 2211889    /lib/libnss_files-2.3.5.so
+002c2000-00349000 r-xs 00000000 08:02 672328     /opt/jdk1.5.0_03/jre/lib/jsse.jar
+00349000-00374000 r-xs 00000000 08:02 671821     /opt/jdk1.5.0_03/jre/lib/ext/sunpkcs11.jar
+00374000-00378000 rwxs 00000000 00:06 78282771   /SYSV00000000 (deleted)
+00378000-0037c000 rwxs 00000000 00:06 78512150   /SYSV00000000 (deleted)
+0037d000-0037f000 r-xs 00000000 08:02 671822     /opt/jdk1.5.0_03/jre/lib/ext/dnsns.jar
+0037f000-003b5000 r-xp 00000000 08:02 671798     /opt/jdk1.5.0_03/jre/lib/i386/xawt/libmawt.so
+003b5000-003b8000 rwxp 00035000 08:02 671798     /opt/jdk1.5.0_03/jre/lib/i386/xawt/libmawt.so
+003b8000-003b9000 rwxp 003b8000 00:00 0 
+003b9000-003bd000 rwxs 00000000 00:06 78741515   /SYSV00000000 (deleted)
+003c3000-003d6000 r-xp 00000000 08:02 671783     /opt/jdk1.5.0_03/jre/lib/i386/libzip.so
+003d6000-003d8000 rwxp 00012000 08:02 671783     /opt/jdk1.5.0_03/jre/lib/i386/libzip.so
+003d8000-003e3000 rwxp 003d8000 00:00 0 
+003e3000-00458000 rwxp 003e3000 00:00 0 
+00458000-0046c000 r-xp 00000000 08:02 671786     /opt/jdk1.5.0_03/jre/lib/i386/libnet.so
+0046c000-0046d000 rwxp 00013000 08:02 671786     /opt/jdk1.5.0_03/jre/lib/i386/libnet.so
+00472000-00487000 r-xp 00000000 08:02 2211849    /lib/ld-2.3.5.so
+00488000-00489000 r-xp 00015000 08:02 2211849    /lib/ld-2.3.5.so
+00489000-0048a000 rwxp 00016000 08:02 2211849    /lib/ld-2.3.5.so
+00490000-005b3000 r-xp 00000000 08:02 2211853    /lib/tls/libc-2.3.5.so
+005b3000-005b4000 ---p 00123000 08:02 2211853    /lib/tls/libc-2.3.5.so
+005b4000-005b6000 r-xp 00123000 08:02 2211853    /lib/tls/libc-2.3.5.so
+005b6000-005b8000 rwxp 00125000 08:02 2211853    /lib/tls/libc-2.3.5.so
+005b8000-005ba000 rwxp 005b8000 00:00 0 
+005bc000-005dd000 r-xp 00000000 08:02 2211857    /lib/tls/libm-2.3.5.so
+005dd000-005de000 r-xp 00020000 08:02 2211857    /lib/tls/libm-2.3.5.so
+005de000-005df000 rwxp 00021000 08:02 2211857    /lib/tls/libm-2.3.5.so
+005e1000-005e3000 r-xp 00000000 08:02 2211859    /lib/libdl-2.3.5.so
+005e3000-005e4000 r-xp 00001000 08:02 2211859    /lib/libdl-2.3.5.so
+005e4000-005e5000 rwxp 00002000 08:02 2211859    /lib/libdl-2.3.5.so
+005e5000-005e6000 ---p 005e5000 00:00 0 
+005e6000-00666000 rwxp 005e6000 00:00 0 
+00666000-00669000 ---p 00666000 00:00 0 
+00669000-006e7000 rwxp 00669000 00:00 0 
+006ec000-006fa000 r-xp 00000000 08:02 2211862    /lib/tls/libpthread-2.3.5.so
+006fa000-006fb000 r-xp 0000d000 08:02 2211862    /lib/tls/libpthread-2.3.5.so
+006fb000-006fc000 rwxp 0000e000 08:02 2211862    /lib/tls/libpthread-2.3.5.so
+006fc000-006fe000 rwxp 006fc000 00:00 0 
+006fe000-00718000 r-xp 00000000 08:02 3312059    /usr/X11R6/lib/X11/locale/lib/common/ximcp.so.2
+00718000-0071a000 rwxp 0001a000 08:02 3312059    /usr/X11R6/lib/X11/locale/lib/common/ximcp.so.2
+0071a000-00732000 r-xp 00000000 08:02 671792     /opt/jdk1.5.0_03/jre/lib/i386/libdcpr.so
+00732000-00745000 rwxp 00018000 08:02 671792     /opt/jdk1.5.0_03/jre/lib/i386/libdcpr.so
+00745000-0074c000 rwxs 00000000 00:06 78774285   /SYSV00000000 (deleted)
+00766000-00771000 r-xp 00000000 08:02 671780     /opt/jdk1.5.0_03/jre/lib/i386/libverify.so
+00771000-00772000 rwxp 0000b000 08:02 671780     /opt/jdk1.5.0_03/jre/lib/i386/libverify.so
+00772000-00775000 ---p 00772000 00:00 0 
+00775000-007f3000 rwxp 00775000 00:00 0 
+007f3000-007f6000 ---p 007f3000 00:00 0 
+007f6000-00874000 rwxp 007f6000 00:00 0 
+0087b000-0087c000 rwxp 0087b000 00:00 0 
+0087c000-00b9d000 r-xp 00000000 08:02 671774     /opt/jdk1.5.0_03/jre/lib/i386/client/libjvm.so
+00b9d000-00bbb000 rwxp 00320000 08:02 671774     /opt/jdk1.5.0_03/jre/lib/i386/client/libjvm.so
+00bbb000-00fd0000 rwxp 00bbb000 00:00 0 
+00fd0000-035b3000 r-xs 00000000 08:02 672407     /opt/jdk1.5.0_03/jre/lib/rt.jar
+035b3000-035b6000 ---p 035b3000 00:00 0 
+035b6000-03634000 rwxp 035b6000 00:00 0 
+03634000-03637000 ---p 03634000 00:00 0 
+03637000-036b5000 rwxp 03637000 00:00 0 
+036b5000-036b6000 ---p 036b5000 00:00 0 
+036b6000-03736000 rwxp 036b6000 00:00 0 
+03736000-037fa000 r-xs 00000000 08:02 672386     /opt/jdk1.5.0_03/jre/lib/ext/localedata.jar
+037fa000-0386f000 r-xp 00000000 08:02 671794     /opt/jdk1.5.0_03/jre/lib/i386/libawt.so
+0386f000-03875000 rwxp 00074000 08:02 671794     /opt/jdk1.5.0_03/jre/lib/i386/libawt.so
+03875000-03899000 rwxp 03875000 00:00 0 
+03899000-0395f000 r-xp 00000000 08:02 671793     /opt/jdk1.5.0_03/jre/lib/i386/libmlib_image.so
+0395f000-03960000 rwxp 000c5000 08:02 671793     /opt/jdk1.5.0_03/jre/lib/i386/libmlib_image.so
+03960000-039d3000 r-xp 00000000 08:02 671803     /opt/jdk1.5.0_03/jre/lib/i386/libfontmanager.so
+039d3000-039dd000 rwxp 00073000 08:02 671803     /opt/jdk1.5.0_03/jre/lib/i386/libfontmanager.so
+039dd000-039e1000 rwxp 039dd000 00:00 0 
+039e1000-039e4000 ---p 039e1000 00:00 0 
+039e4000-03a62000 rwxp 039e4000 00:00 0 
+03a62000-03a65000 ---p 03a62000 00:00 0 
+03a65000-03ae3000 rwxp 03a65000 00:00 0 
+03ae3000-03ae6000 ---p 03ae3000 00:00 0 
+03ae6000-03b64000 rwxp 03ae6000 00:00 0 
+03b64000-03b67000 ---p 03b64000 00:00 0 
+03b67000-03be5000 rwxp 03b67000 00:00 0 
+03be5000-03be8000 rwxp 03be5000 00:00 0 
+03be8000-03c66000 rwxp 03be8000 00:00 0 
+03c66000-03c69000 rwxp 03c66000 00:00 0 
+03c69000-03ce7000 rwxp 03c69000 00:00 0 
+03ce7000-03cea000 rwxp 03ce7000 00:00 0 
+03cea000-03d68000 rwxp 03cea000 00:00 0 
+03d68000-03d6b000 rwxp 03d68000 00:00 0 
+03d6b000-03de9000 rwxp 03d6b000 00:00 0 
+03de9000-03dec000 ---p 03de9000 00:00 0 
+03dec000-03e6a000 rwxp 03dec000 00:00 0 
+03e6a000-03e6d000 rwxp 03e6a000 00:00 0 
+03e6d000-03eeb000 rwxp 03e6d000 00:00 0 
+03eeb000-03f1a000 r-xp 00000000 08:02 671804     /opt/jdk1.5.0_03/jre/lib/i386/libjpeg.so
+03f1a000-03f1b000 rwxp 0002e000 08:02 671804     /opt/jdk1.5.0_03/jre/lib/i386/libjpeg.so
+03f1b000-041ff000 rwxs 00000000 00:06 78184462   /SYSV00000000 (deleted)
+0437e000-0457e000 r-xp 00000000 08:02 3232058    /usr/lib/locale/locale-archive
+04814000-0504f000 r-xs 00000000 08:02 672385     /opt/jdk1.5.0_03/jre/lib/charsets.jar
+0504f000-052df000 rwxp 0504f000 00:00 0 
+052df000-0704f000 rwxp 052df000 00:00 0 
+07109000-0711b000 r-xp 00000000 08:02 2211882    /lib/libnsl-2.3.5.so
+0711b000-0711c000 r-xp 00011000 08:02 2211882    /lib/libnsl-2.3.5.so
+0711c000-0711d000 rwxp 00012000 08:02 2211882    /lib/libnsl-2.3.5.so
+0711d000-0711f000 rwxp 0711d000 00:00 0 
+07289000-0734c000 r-xp 00000000 08:02 3242901    /usr/X11R6/lib/libX11.so.6.2
+0734c000-07350000 rwxp 000c3000 08:02 3242901    /usr/X11R6/lib/libX11.so.6.2
+07651000-07748000 rwxs 00000000 00:06 78315541   /SYSV00000000 (deleted)
+08048000-08056000 r-xp 00000000 08:02 671748     /opt/jdk1.5.0_03/jre/bin/java
+08056000-08058000 rwxp 0000e000 08:02 671748     /opt/jdk1.5.0_03/jre/bin/java
+08058000-0851e000 rwxp 08058000 00:00 0 
+cb400000-cb4a0000 rwxp cb400000 00:00 0 
+cb4a0000-cb8e0000 rwxp cb4a0000 00:00 0 
+cb8e0000-cbe28000 rwxp cb8e0000 00:00 0 
+cbe28000-cf400000 rwxp cbe28000 00:00 0 
+cf400000-cfc00000 rwxp cf400000 00:00 0 
+cfc00000-d3400000 rwxp cfc00000 00:00 0 
+d3400000-d397a000 r-xs 00001000 08:02 672370     /opt/jdk1.5.0_03/jre/lib/i386/client/classes.jsa
+d397a000-d3c00000 rwxp d397a000 00:00 0 
+d3c00000-d41b7000 rwxp 0057b000 08:02 672370     /opt/jdk1.5.0_03/jre/lib/i386/client/classes.jsa
+d41b7000-d4800000 rwxp d41b7000 00:00 0 
+d4800000-d48cf000 rwxp 00b32000 08:02 672370     /opt/jdk1.5.0_03/jre/lib/i386/client/classes.jsa
+d48cf000-d4c00000 rwxp d48cf000 00:00 0 
+d4c00000-d4c04000 r-xs 00c01000 08:02 672370     /opt/jdk1.5.0_03/jre/lib/i386/client/classes.jsa
+d4c04000-d5000000 rwxp d4c04000 00:00 0 
+f6aab000-f6e00000 rwxs 00000000 00:06 78905364   /SYSV00000000 (deleted)
+f6e00000-f6e21000 rwxp f6e00000 00:00 0 
+f6e21000-f6f00000 ---p f6e21000 00:00 0 
+fee00000-fee03000 ---p fee00000 00:00 0 
+fee03000-ff000000 rwxp fee03000 00:00 0 
+ffffe000-fffff000 ---p 00000000 00:00 0 
+
+VM Arguments:
+java_command: elvira.Elvira
+
+Environment Variables:
+PATH=/usr/kerberos/bin:/usr/local/bin:/usr/bin:/bin:/usr/X11R6/bin
+USERNAME=smc
+LD_LIBRARY_PATH=/opt/jdk1.5.0_03/jre/lib/i386/client:/opt/jdk1.5.0_03/jre/lib/i386:/opt/jdk1.5.0_03/jre/../lib/i386
+SHELL=/bin/tcsh
+DISPLAY=:0.0
+HOSTTYPE=i386-linux
+OSTYPE=linux
+MACHTYPE=i386
+
+
+---------------  S Y S T E M  ---------------
+
+OS:Fedora Core release 3 (Heidelberg)
+
+uname:Linux 2.6.9-1.667smp #1 SMP Tue Nov 2 14:59:52 EST 2004 i686
+libc:glibc 2.3.5 NPTL 2.3.5 
+rlimit: STACK 10240k, CORE infinity, NPROC 16379, NOFILE 1024, AS infinity
+load average:1.70 1.47 1.32
+
+CPU:total 2 family 15, cmov, cx8, fxsr, mmx, sse, sse2, ht
+
+Memory: 4k page, physical 1033776k(18340k free), swap 2097140k(2096940k free)
+
+vm_info: Java HotSpot(TM) Client VM (1.5.0_03-b07) for linux-x86, built on Apr 13 2005 03:17:07 by java_re with gcc 3.2.1-7a (J2SE release)
+

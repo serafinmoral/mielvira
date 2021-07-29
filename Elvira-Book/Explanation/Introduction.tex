@@ -1,0 +1,56 @@
+\section{Introduction}
+
+Explanation in expert systems constitutes a very important
+question to be addressed, because human-computer collaboration
+requires mutual understanding: machine models must take into
+account human cognitive processes and at the same time must make
+artificial reasoning understandable for human users. In fact, an
+experiment performed at the MYCIN project showed that physicians
+are very reluctant to accept the advice of a machine if they do
+not understand how it was obtained \cite{teach84}. It is
+surprising, however, that the amount of research devoted to this
+subject has been relatively small, compared to other areas of
+artificial intelligence. There are only isolated pieces of work,
+seldom used in real-world applications \cite{lacave04}; in fact,
+the explanation capability of most of today's expert systems and
+packages is even poorer than that of MYCIN, which is often
+regarded as the first expert system.
+
+In this context, the advantages of Bayesian networks and influence
+diagrams are that they have a clear interpretation, easily combine
+subjective estimates and statistical data, and can be justified on
+theoretical grounds. In contrast, the main disadvantage is that
+their reasoning method follows a normative approach, and
+consequently, the explanation of inference is more difficult than
+in the methods that try to imitate human reasoning
+\cite{Druzdzel93a}.
+
+Furthermore, the own development and debugging of Bayesian
+networks and influence diagrams is very difficult without the
+assistance of explanation capabilities. During its
+\emph{deployment}, the explanation capability is very useful for
+convincing the user of the correctness of the results. During the
+\emph{evaluation} process, some of the test
+cases are properly solved by the system and some of them are not.
+In the cases properly solved, the evaluators (knowledge engineers
+and human experts) can check that all the steps in the way to a
+solution were correct (an incorrect argument might lead to a
+correct solution by accident). In the case that the expert system
+makes a mistake, the explanation of the reasoning process is an
+invaluable tool for isolating and correcting the wrong pieces of
+information in the knowledge base In the case of \emph{tutoring
+systems}, the explanation capability is essential for improving
+the student's skills. In the same venue, the use of expert systems
+as intelligent tutors for apprentices requires advanced
+explanation options.
+
+For these reasons, after reviewing the literature on explanation
+in BNs \cite{lacave02}, and taking into account our previous
+experience in the development of medical BNs \cite{Diez94,
+lacave98b}, we have implemented several explanation methods in
+Elvira \cite{elvira02}. The construction of \textsc{Prostanet}
+\cite{lacave03}, a BN for prostate cancer, served as a benchmark
+for testing Elvira, and at the same time provided useful feedback
+that led to the addition of new explanation options. We have also
+used Elvira to debug \textsc{Hepar~II}, a BN for liver disorders
+\cite{onisko00}.

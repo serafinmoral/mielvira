@@ -1,0 +1,27 @@
+\typeout{>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>}
+\typeout{>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>}
+\typeout{>>>> Ambientes.tex de Elvira-Book contiene ambientes que pueden ayudar a}
+\typeout{>>>> simplificar la escritura. CUIDADO: No uses nunca "renewtheorem"}
+\typeout{>>>>}
+
+
+%%%%%%%%%%%%%% Teoremas
+
+\newtheorem{proposition}{Proposition}[chapter]
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lema}{Lema}[chapter]
+\newtheorem{corolary}{Corolary}[chapter]
+\newtheorem{example}{Example}[chapter]
+\newtheorem{definition}{Definition}[chapter]
+
+
+%%%%%%%%%%%%%% Ambientes
+% A modo de ejemplo.
+\newenvironment{miambiente}[1]
+{#1 \par \begin{enumerate}}{\end{enumerate}}
+
+
+\typeout{<<<<}
+\typeout{Cargados todos los nuevos Ambientes de Elvira-Book}
+\typeout{<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<}
+\typeout{<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<}

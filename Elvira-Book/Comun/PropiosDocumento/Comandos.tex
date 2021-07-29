@@ -1,0 +1,104 @@
+\typeout{>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>}
+\typeout{>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>}
+\typeout{>>>> Comandos.tex de Elvira-Book contiene comandos que pueden ayudar a}
+\typeout{>>>> simplificar la escritura. }
+\typeout{>>>> Incluye los que consideres necesarios. No olvides comentarlos}
+\typeout{>>>> CUIDADO: No uses nunca "renewcommand"}
+\typeout{>>>>}
+
+
+%%% Se muestran algunos ejemplos que pueden ser útiles.
+%%% Se han dividido por 'secciones' y cada uno de ellos tiene un comentario asociado
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% NO TOCAR ESTOS COMANDOS.
+\newcommand{\elvira}[1]{\textsf{#1}} % \textsf para las palabras claves de Elvira.
+\newcommand{\autores}[1]{\addtocontents{toc}{\protect\textsl{#1}}} % Autores en el índice
+\newcommand{\autor}[3]{\centerline{\LARGE #1} \centerline{#2} \centerline{#3} ~\\ } % Autores en Chap
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Comandos para hacer Cajas %%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Para enmarcar un tabular
+\newcommand{\ffbox}[1]{\fbox{\begin{tabular}{c} #1 \end{tabular}}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Graficos-Flechas %%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\da}{\downarrow}    % Flecha abajo
+\newcommand{\ua}{\uparrow}      % Flecha arriba
+\newcommand{\la}{\leftarrow}    % Flecha izda.
+\newcommand{\ra}{\uparrow}      % Flecha dcha
+
+\newcommand{\lineah}{\relbar\joinrel} % Realiza una linea en horizontal. Auxiliar para los siguientes.
+\newcommand{\mapto}{\mapstochar\lineah\joinrel\lineah\joinrel\rightarrow} % Para funciones
+\newcommand{\Mapto}{\mapstochar\lineah\joinrel%
+       \lineah\joinrel\lineah\joinrel\rightarrow}               % Igual que mapto pero más largo.
+\newcommand{\longmapto}{\mapstochar\lineah\joinrel\lineah%
+           \joinrel\lineah\joinrel\lineah\joinrel\rightarrow}   % Igual que Mapto pero más largo.
+\newcommand{\LongMapto}{\mapstochar\lineah\joinrel\lineah\joinrel\lineah%
+           \joinrel\lineah\joinrel\lineah\joinrel\rightarrow}   % Igual que longmapto pero más largo.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Caligráficos %%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\cA}{{\cal A}}  \newcommand{\cB}{{\cal B}}  % Paa no tener que escribir siempre \cal
+\newcommand{\cC}{{\cal C}}  \newcommand{\cD}{{\cal D}}
+\newcommand{\cE}{{\cal E}}  \newcommand{\cF}{{\cal F}}
+\newcommand{\cG}{{\cal G}}  \newcommand{\cH}{{\cal H}}
+\newcommand{\cI}{{\cal I}}  \newcommand{\cJ}{{\cal J}}
+\newcommand{\cK}{{\cal K}}  \newcommand{\cL}{{\cal L}}
+\newcommand{\cM}{{\cal M}}  \newcommand{\cN}{{\cal N}}
+\newcommand{\cO}{{\cal O}}  \newcommand{\cP}{{\cal P}}
+\newcommand{\cQ}{{\cal Q}}  \newcommand{\cR}{{\cal R}}
+\newcommand{\cS}{{\cal S}}  \newcommand{\cT}{{\cal T}}
+\newcommand{\cU}{{\cal U}}  \newcommand{\cV}{{\cal V}}
+\newcommand{\cX}{{\cal X}}  \newcommand{\cY}{{\cal Y}}
+\newcommand{\cZ}{{\cal Z}}
+
+\newcommand{\N}{\mathbb{N}} % Conjunto naturales.
+\newcommand{\Z}{\mathbb{Z}} % Conjunto enteros.
+\newcommand{\Q}{\mathbb{Q}} % Conjunto racionales.
+\newcommand{\R}{\mathbb{R}} % Conjunto reales.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Simplifica la escritura y hace más legible el texto %%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\mc}{\multicolumn}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\bs}{\boldsymbol}
+\newcommand{\fdNormal}[3]{% P.e. $\fdNormal(x,\mu,\xi)$ escribe una N(\mu,\xi) en función de x
+    f(#1)={1\over \sqrt{2\pi} #3}\exp\left\{{-{1\over 2}{(#1-#2)^2 \over #3^2}}\right\}
+}
+
+%%%% Añade los que necesitas
+
+%%%% Añadidos por Antonio
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\bz}{\mathbf{z}}
+\newcommand{\be}{\mathbf{e}}
+\newcommand{\bX}{\mathbf{X}}
+\newcommand{\bY}{\mathbf{Y}}
+\newcommand{\bZ}{\mathbf{Z}}
+\newcommand{\bE}{\mathbf{E}}
+\def\set#1{{\{#1\}}}
+\newcommand{\flechab}[1]{^{\downarrow #1}}
+\newcommand{\flechaa}[1]{^{\uparrow #1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\typeout{<<<<}
+\typeout{Cargados todos los nuevos Comandos de Elvira-Book}
+\typeout{<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<}
+\typeout{<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<}

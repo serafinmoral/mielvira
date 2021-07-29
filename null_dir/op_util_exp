@@ -1,0 +1,20 @@
+Start of evaluation: 
+Arc reversal: Sickf-> Losesf
+Chance node removal: Sickf
+Chance node removal: Losesf
+Chance node removal: Dryf
+Arc reversal: Dry-> Loses
+Chance node removal: Dry
+Chance node removal: Loses
+Chance node removal: Sick
+Decision node removal: Treat
+values= table ( 
+                [ = 18011.0,
+                );
+
+++++++++++++++++++++++++++++++++++++++++++
+Analizing variable Treat
+
+++++++++++++++++++++++++++++++++++++++++++
+
+Computation time: 0.0060
